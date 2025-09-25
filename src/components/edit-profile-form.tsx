@@ -16,12 +16,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { useUser, useAuth } from '@/firebase';
+import { useUser, useAuth, useFirestore } from '@/firebase';
 import { useEffect, useState, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Pencil } from 'lucide-react';
 import { updateProfile } from 'firebase/auth';
 import { uploadProfileImage } from '@/firebase/storage';
+import { updateUserDocument } from '@/firebase/firestore';
 
 const profileSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
@@ -36,6 +37,7 @@ export function EditProfileForm() {
   const { toast } = useToast();
   const { user } = useUser();
   const auth = useAuth();
+  const firestore = useFirestore();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -84,7 +86,7 @@ export function EditProfileForm() {
 
 
   const onSubmit = async (data: ProfileSchema) => {
-    if (!auth.currentUser) {
+    if (!auth.currentUser || !firestore) {
         toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to update your profile.' });
         return;
     }
@@ -100,9 +102,16 @@ export function EditProfileForm() {
             displayName: data.name,
             photoURL: photoURL,
         });
+        
+        const userDataToUpdate = {
+          name: data.name,
+          photoURL: photoURL,
+          phone: data.phone,
+          location: data.location,
+        };
 
-        // Here you would also update your Firestore user document
-        // e.g., await updateUserDocument(auth.currentUser.uid, { name: data.name, photoURL, phone: data.phone, location: data.location });
+        // Update the user document in Firestore.
+        updateUserDocument(firestore, auth.currentUser.uid, userDataToUpdate);
 
         toast({
             title: 'Profile Updated',
