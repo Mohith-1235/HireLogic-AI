@@ -16,10 +16,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { useUser } from '@/firebase';
+import { useUser, useAuth } from '@/firebase';
 import { useEffect, useState, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Pencil } from 'lucide-react';
+import { updateProfile } from 'firebase/auth';
+import { uploadProfileImage } from '@/firebase/storage';
 
 const profileSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
@@ -33,7 +35,10 @@ type ProfileSchema = z.infer<typeof profileSchema>;
 export function EditProfileForm() {
   const { toast } = useToast();
   const { user } = useUser();
+  const auth = useAuth();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
@@ -68,6 +73,7 @@ export function EditProfileForm() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setAvatarFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarPreview(reader.result as string);
@@ -77,14 +83,40 @@ export function EditProfileForm() {
   };
 
 
-  const onSubmit = (data: ProfileSchema) => {
-    console.log('Profile updated:', data);
-    // Here you would typically update the user's profile in Firebase Auth and Firestore
-    // including uploading the new avatar if one was selected
-    toast({
-      title: 'Profile Updated',
-      description: 'Your profile has been successfully updated.',
-    });
+  const onSubmit = async (data: ProfileSchema) => {
+    if (!auth.currentUser) {
+        toast({ variant: 'destructive', title: 'Error', description: 'You must be logged in to update your profile.' });
+        return;
+    }
+    setIsSubmitting(true);
+    try {
+        let photoURL = auth.currentUser.photoURL;
+
+        if (avatarFile) {
+            photoURL = await uploadProfileImage(auth.currentUser.uid, avatarFile);
+        }
+
+        await updateProfile(auth.currentUser, {
+            displayName: data.name,
+            photoURL: photoURL,
+        });
+
+        // Here you would also update your Firestore user document
+        // e.g., await updateUserDocument(auth.currentUser.uid, { name: data.name, photoURL, phone: data.phone, location: data.location });
+
+        toast({
+            title: 'Profile Updated',
+            description: 'Your profile has been successfully updated.',
+        });
+    } catch (error: any) {
+        toast({
+            variant: 'destructive',
+            title: 'Update Failed',
+            description: error.message || 'An unexpected error occurred.',
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (
@@ -168,8 +200,8 @@ export function EditProfileForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Save Changes
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : 'Save Changes'}
             </Button>
           </form>
         </Form>
