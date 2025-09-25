@@ -1,0 +1,115 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the HireLogic-AI landing page, storing their basic information and authentication details.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "User's full name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "googleId": {
+          "type": "string",
+          "description": "The unique identifier provided by Google for the user. Used for Google Sign-In."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "googleId"
+      ]
+    },
+    "ContactMessage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactMessage",
+      "type": "object",
+      "description": "Represents a contact message submitted through the contact form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ContactMessage entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the person submitting the message."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the person submitting the message.",
+          "format": "email"
+        },
+        "message": {
+          "type": "string",
+          "description": "The contact message content."
+        },
+        "sentAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the message was sent.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "message",
+        "sentAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user data, with the document ID matching the Firebase Auth UID. Ensures path-based ownership, granting users access only to their own data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Auth UID of the user.  This is used to enforce ownership."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contactMessages/{contactMessageId}",
+        "definition": {
+          "entityName": "ContactMessage",
+          "schema": {
+            "$ref": "#/backend/entities/ContactMessage"
+          },
+          "description": "Stores contact messages submitted through the contact form.",
+          "params": [
+            {
+              "name": "contactMessageId",
+              "description": "The unique identifier for the contact message."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to be simple and secure, leveraging path-based ownership for user data and a dedicated collection for contact messages. This approach avoids complex security rules and ensures data isolation. User data is stored under `/users/{userId}`, with `userId` matching the Firebase Auth UID, ensuring straightforward ownership validation. Contact messages are stored in a top-level `contactMessages` collection, with no specific ownership tied to users. This segregation allows different security rules to be applied to each collection, improving clarity and maintainability.  By leveraging the `userId` as a path segment, authorization rules can easily verify that a user is only accessing their own data. Contact messages are globally accessible to administrators who have access to Firestore.\n\nAuthorization Independence:  Since the Google Auth ID is stored within the User document at creation, the user document can be created in a single atomic operation.  All rules will rely solely on `request.auth.uid` and the path-based ownership model described above.  \n\nQAPs: The structural segregation of user data and contact messages supports secure `list` operations. Rules can be written to allow listing only the contact messages to authenticated administrators. For user data, the path-based ownership model ensures that users can only list data under their own `/users/{userId}` path."
+  }
+}
