@@ -27,6 +27,10 @@ export function Header() {
     { name: 'About Us', href: '#about-us' },
     { name: 'Contact', href: '#contact' },
   ];
+  
+  if (user) {
+    navItems.push({ name: 'Verification', href: '/document-verification' });
+  }
 
   const UserMenu = () => {
     if (isUserLoading) {
