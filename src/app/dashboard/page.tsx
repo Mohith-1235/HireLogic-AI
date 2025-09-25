@@ -74,40 +74,52 @@ export default function DashboardPage() {
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Latest Job Updates">
-                  <Briefcase />
-                  <span>Latest Job Updates</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="Latest Job Updates">
+                    <Briefcase />
+                    <span>Latest Job Updates</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="AI HR Interview Trainer">
-                  <Bot />
-                  <span>AI HR Interview Trainer</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="AI HR Interview Trainer">
+                    <Bot />
+                    <span>AI HR Interview Trainer</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Resume Upload">
-                  <Upload />
-                  <span>Resume Upload</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="Resume Upload">
+                    <Upload />
+                    <span>Resume Upload</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Edit Profile">
-                  <User />
-                  <span>Edit Profile</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="Edit Profile">
+                    <User />
+                    <span>Edit Profile</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Applied Jobs Notifications">
-                  <Bell />
-                  <span>Applied Jobs</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="Applied Jobs Notifications">
+                    <Bell />
+                    <span>Applied Jobs</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="External Skill Certifications">
-                  <Award />
-                  <span>Certifications</span>
-                </SidebarMenuButton>
+                <Link href="/dashboard" legacyBehavior passHref>
+                  <SidebarMenuButton tooltip="External Skill Certifications">
+                    <Award />
+                    <span>Certifications</span>
+                  </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
