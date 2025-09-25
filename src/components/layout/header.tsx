@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LoginModal } from '@/components/modals/login-modal';
 import { SignupModal } from '@/components/modals/signup-modal';
@@ -124,8 +124,8 @@ export function Header() {
               <UserMenu />
               <ThemeToggle />
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild className="md:hidden">
-                  <Button variant="ghost" size="icon" aria-label="Open menu">
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
