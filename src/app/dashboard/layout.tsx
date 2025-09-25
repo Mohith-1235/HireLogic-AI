@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
@@ -16,7 +17,7 @@ function DashboardHeader() {
   if (isUserLoading) {
     return (
       <div className="flex items-center gap-4 p-4 sm:p-6 lg:p-8">
-        <Skeleton className="h-12 w-12 rounded-full" />
+        <Skeleton className="h-16 w-16 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
           <Skeleton className="h-4 w-[200px]" />
