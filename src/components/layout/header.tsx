@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from '@/components/ui/sheet';
 import { LoginModal } from '@/components/modals/login-modal';
 import { SignupModal } from '@/components/modals/signup-modal';
 import { Separator } from '../ui/separator';
@@ -14,6 +13,7 @@ import { signOutUser } from '@/firebase/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { Skeleton } from '../ui/skeleton';
+import { ThemeToggle } from '../theme-toggle';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -127,8 +127,8 @@ export function Header() {
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          <UserMenu />
           <ThemeToggle />
+          <UserMenu />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
@@ -141,6 +141,7 @@ export function Header() {
                     HireLogic-AI
                   </Link>
                 </div>
+                <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                 <Separator />
                 <nav className="flex flex-col space-y-2 p-4">
                   {navItems.map((item) => (
