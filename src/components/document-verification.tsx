@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +12,8 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { UploadCloud, File as FileIcon, X, CheckCircle, XCircle, AlertCircle, Clock, ExternalLink, Download } from 'lucide-react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+
 
 // --- Types ---
 type DocumentStatus = 'Not Uploaded' | 'Ready to Verify' | 'Verifying...' | 'Genuine' | 'Fraud' | 'Error';
@@ -52,6 +56,8 @@ export function DocumentVerification() {
     };
     setLogs(prev => [newLog, ...prev]);
   }, []);
+
+  const verificationImage = PlaceHolderImages.find(p => p.id === "document-verification-image");
 
   useEffect(() => {
     // Restore state from localStorage on mount
@@ -347,10 +353,31 @@ export function DocumentVerification() {
   );
 
   return (
-    <div className="container mx-auto max-w-6xl py-8 px-4">
-        <header className="mb-8">
-            <h1 className="text-4xl font-bold tracking-tight">Document Verification</h1>
-            <p className="text-muted-foreground">Upload or link your documents for verification. All documents are used solely for verification purposes.</p>
+    <>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center">
+          <Link href="/" className="font-bold text-lg">
+            HireLogic-AI
+          </Link>
+        </div>
+      </header>
+      <div className="container mx-auto max-w-6xl py-8 px-4">
+        <header className="mb-8 flex items-center gap-8">
+            <div>
+                <h1 className="text-4xl font-bold tracking-tight">Document Verification</h1>
+                <p className="text-muted-foreground">Upload or link your documents for verification. All documents are used solely for verification purposes.</p>
+            </div>
+            {verificationImage && (
+                <div className="relative h-24 w-24 hidden sm:block">
+                    <Image
+                        src={verificationImage.imageUrl}
+                        alt={verificationImage.description}
+                        data-ai-hint={verificationImage.imageHint}
+                        fill
+                        className="object-cover rounded-full"
+                    />
+                </div>
+            )}
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -436,5 +463,6 @@ export function DocumentVerification() {
             </div>
         </div>
     </div>
+    </>
   );
 }
