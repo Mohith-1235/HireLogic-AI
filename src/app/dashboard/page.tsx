@@ -108,7 +108,7 @@ export default function DashboardPage() {
                   <Award />
                   <span>Certifications</span>
                 </SidebarMenuButton>
-              </SiderbarMenuItem>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
