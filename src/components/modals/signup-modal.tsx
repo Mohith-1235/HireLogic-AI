@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -25,9 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { signInWithGoogle, signInWithApple } from "@/firebase/auth";
+import { signUpWithEmail, signInWithGoogle, signInWithApple } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 
 const signupSchema = z
@@ -50,7 +49,7 @@ interface SignupModalProps {
 }
 
 const GoogleIcon = () => (
-    <svg className="h-5 w-5" viewBox="0 0 24 24">
+    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
         fill="#4285F4"
@@ -71,7 +70,7 @@ const GoogleIcon = () => (
   );
   
   const AppleIcon = () => (
-    <svg className="h-5 w-5" viewBox="0 0 24 24">
+    <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
       <path d="M12.152 6.896c-.948 0-2.415-1.065-3.593-1.065-1.537 0-3.122.993-3.901 2.537C3 10.153 3.08 13.07 4.258 15.35c.58.94 1.503 2.022 2.572 2.022.947 0 1.32-.625 2.618-.625.993 0 1.386.625 2.617.625 1.135 0 1.994-1.082 2.572-2.022.798-1.554.965-2.924.965-2.957-.033-2.88-1.994-4.228-4.447-4.448m-1.21-2.146c.799-.83 1.353-1.993 1.221-3.155-.948.033-2.147.69-2.945 1.484-.69.658-1.417 1.89-1.285 2.99.98.066 2.049-.624 3.009-.999"/>
     </svg>
   );
@@ -79,7 +78,6 @@ const GoogleIcon = () => (
 export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
-  const auth = useAuth();
   const router = useRouter();
 
   const form = useForm<SignupSchema>({
@@ -100,10 +98,10 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
   };
 
   const handleSuccess = () => {
-    setIsOpen(false);
+    handleOpenChange(false);
     toast({
       title: "Account Created",
-      description: "Welcome to HireLogic-AI!",
+      description: "Welcome to HireLogic-AI! Redirecting you to the dashboard.",
     });
     router.push('/dashboard');
   };
@@ -112,36 +110,22 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
     toast({
       variant: "destructive",
       title: "Uh oh! Something went wrong.",
-      description: error.message,
+      description: error.message || 'An unknown error occurred.',
     });
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-      handleSuccess();
-    } catch (error: any) {
-      handleError(error);
-    }
+  const handleGoogleSignIn = () => {
+    signInWithGoogle().then(handleSuccess).catch(handleError);
   };
 
-  const handleAppleSignIn = async () => {
-    try {
-      await signInWithApple();
-      handleSuccess();
-    } catch (error: any) {
-      handleError(error);
-    }
+  const handleAppleSignIn = () => {
+    signInWithApple().then(handleSuccess).catch(handleError);
   };
 
-  const onSubmit = async (data: SignupSchema) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      await updateProfile(userCredential.user, { displayName: data.name });
-      handleSuccess();
-    } catch (error: any) {
-      handleError(error);
-    }
+  const onSubmit = (data: SignupSchema) => {
+    signUpWithEmail(data.name, data.email, data.password)
+      .then(handleSuccess)
+      .catch(handleError);
   };
 
   return (
