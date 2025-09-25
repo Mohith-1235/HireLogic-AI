@@ -245,6 +245,17 @@ export function DocumentVerification() {
   const overallStatus = allMandatorySubmitted 
     ? (documents.some(d => d.status === 'Fraud') ? 'Issues Found' : (documents.every(d => d.status === 'Genuine' || d.status === 'Not Uploaded' && !d.mandatory) ? 'All Genuine' : 'Pending Verification'))
     : 'Pending Documents';
+    
+  const verifiedDocs = documents.filter(d => d.status === 'Genuine' || d.status === 'Fraud');
+  const hasFraud = verifiedDocs.some(d => d.status === 'Fraud');
+  const allGenuine = verifiedDocs.length > 0 && verifiedDocs.every(d => d.status === 'Genuine');
+
+  let receiptButtonText = "Download Receipt";
+  if (hasFraud) {
+    receiptButtonText = "Download Fraud Slip";
+  } else if (allGenuine) {
+    receiptButtonText = "Download Trusted Slip";
+  }
 
   const StatusBadge = ({ status }: { status: DocumentStatus }) => {
     const variants: { [key in DocumentStatus]: { icon: React.ReactNode, text: string, className: string } } = {
@@ -432,7 +443,7 @@ export function DocumentVerification() {
                             Verify All
                         </Button>
                         <Button className="w-full" variant="secondary" onClick={handlePrintReceipt}>
-                           <Download className="mr-2 h-4 w-4" /> Download Receipt
+                           <Download className="mr-2 h-4 w-4" /> {receiptButtonText}
                         </Button>
                     </CardFooter>
                 </Card>
