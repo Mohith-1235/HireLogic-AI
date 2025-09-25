@@ -7,6 +7,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase';
 import { useEffect, useState } from 'react';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { Briefcase, Bot, Upload, User, Bell, Award } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
+
 
 type DocumentStatus = 'Not Uploaded' | 'Ready to Verify' | 'Verifying...' | 'Genuine' | 'Fraud' | 'Error';
 interface DocumentState {
@@ -54,6 +58,72 @@ export default function DashboardPage() {
   // Don't render anything until we know the user's auth state
   if (isUserLoading || !user) {
     return null;
+  }
+
+  if (isVerified) {
+    return (
+      <SidebarProvider>
+        <Sidebar>
+          <SidebarHeader>
+             <div className="flex items-center justify-between">
+                <span className="text-lg font-bold">HireLogic-AI</span>
+                <SidebarTrigger />
+             </div>
+             <ThemeToggle />
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Latest Job Updates">
+                  <Briefcase />
+                  <span>Latest Job Updates</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="AI HR Interview Trainer">
+                  <Bot />
+                  <span>AI HR Interview Trainer</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Resume Upload">
+                  <Upload />
+                  <span>Resume Upload</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Edit Profile">
+                  <User />
+                  <span>Edit Profile</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Applied Jobs Notifications">
+                  <Bell />
+                  <span>Applied Jobs</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="External Skill Certifications">
+                  <Award />
+                  <span>Certifications</span>
+                </SidebarMenuButton>
+              </SiderbarMenuItem>
+            </SidebarMenu>
+          </SidebarContent>
+        </Sidebar>
+        <SidebarInset>
+            <div className="flex min-h-screen flex-col items-center justify-center bg-background text-center p-4">
+                 <h1 className="font-headline text-3xl font-bold sm:text-4xl">
+                    Welcome to your Dashboard, {user.displayName || 'User'}!
+                </h1>
+                <p className="text-muted-foreground sm:text-lg mt-2">
+                    You can now access all the features.
+                </p>
+            </div>
+        </SidebarInset>
+      </SidebarProvider>
+    );
   }
 
   return (
