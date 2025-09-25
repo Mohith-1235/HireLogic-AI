@@ -356,8 +356,8 @@ export function DocumentVerification() {
         <Button 
           className="w-full"
           onClick={() => handleVerify(doc.id)} 
-          disabled={doc.status !== 'Ready to Verify' && doc.status !== 'Error' && doc.status !== 'Fraud'}>
-          {doc.status === 'Genuine' || doc.status === 'Fraud' ? 'Re-verify' : 'Verify'}
+          disabled={doc.status === 'Genuine' || doc.status === 'Not Uploaded' || doc.status === 'Verifying...'}>
+          {doc.status === 'Genuine' ? 'Verified' : (doc.status === 'Fraud' || doc.status === 'Error' ? 'Re-verify' : 'Verify')}
         </Button>
       </CardFooter>
     </Card>
