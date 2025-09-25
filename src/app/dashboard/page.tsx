@@ -93,7 +93,7 @@ export default function DashboardPage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
+                <Link href="/dashboard/ai-trainer" legacyBehavior passHref>
                   <SidebarMenuButton tooltip="AI HR Interview Trainer">
                     <Bot />
                     <span>AI HR Interview Trainer</span>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
+                <Link href="/dashboard/resume-upload" legacyBehavior passHref>
                   <SidebarMenuButton tooltip="Resume Upload">
                     <Upload />
                     <span>Resume Upload</span>
@@ -109,7 +109,7 @@ export default function DashboardPage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
+                <Link href="/dashboard/profile" legacyBehavior passHref>
                   <SidebarMenuButton tooltip="Edit Profile">
                     <User />
                     <span>Edit Profile</span>
@@ -117,7 +117,7 @@ export default function DashboardPage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
+                <Link href="/dashboard/applied-jobs" legacyBehavior passHref>
                   <SidebarMenuButton tooltip="Applied Jobs Notifications">
                     <Bell />
                     <span>Applied Jobs</span>
@@ -125,7 +125,7 @@ export default function DashboardPage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
+                <Link href="/dashboard/certifications" legacyBehavior passHref>
                   <SidebarMenuButton tooltip="External Skill Certifications">
                     <Award />
                     <span>Certifications</span>
