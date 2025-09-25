@@ -18,7 +18,6 @@ export default function SettingsPage() {
             <Link href="/" className="font-bold text-lg">HireLogic-AI</Link>
             <SidebarTrigger />
             </div>
-            <ThemeToggle />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>

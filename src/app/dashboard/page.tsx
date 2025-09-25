@@ -9,7 +9,6 @@ import { useUser } from '@/firebase';
 import { useEffect, useState } from 'react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Briefcase, Bot, Upload, User, Bell, Award, Search, Settings } from 'lucide-react';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -81,7 +80,6 @@ export default function DashboardPage() {
                 <Link href="/" className="font-bold text-lg">HireLogic-AI</Link>
                 <SidebarTrigger />
              </div>
-             <ThemeToggle />
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
