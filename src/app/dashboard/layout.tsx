@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
@@ -20,7 +21,6 @@ function DashboardHeader() {
         <Skeleton className="h-16 w-16 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
         </div>
       </div>
     );
@@ -35,8 +35,7 @@ function DashboardHeader() {
         <AvatarFallback>{user.displayName?.charAt(0) || user.email?.charAt(0)}</AvatarFallback>
       </Avatar>
       <div>
-        <h1 className="text-2xl font-bold sm:text-3xl">Welcome back, {user.displayName || 'User'}!</h1>
-        <p className="text-muted-foreground">{user.email}</p>
+        <h1 className="text-2xl font-bold sm:text-3xl">{user.displayName || 'User'}</h1>
       </div>
     </div>
   )
