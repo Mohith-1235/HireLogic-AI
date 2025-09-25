@@ -4,7 +4,8 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Cpu, ShieldCheck, Target } from "lucide-react";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import Image from "next/image";
 
 export default async function Home() {
   const content = await generateInitialHomepageContent({
@@ -12,19 +13,24 @@ export default async function Home() {
       "HireLogic-AI is a recruiting startup that uses AI for candidate screening and matching to streamline the hiring process.",
   });
 
+  const heroImage = PlaceHolderImages.find(p => p.id === "hero-background");
+  const missionImage = PlaceHolderImages.find(p => p.id === "about-mission");
+  const aiImage = PlaceHolderImages.find(p => p.id === "about-ai-screening");
+  const trustedImage = PlaceHolderImages.find(p => p.id === "about-trusted-hiring");
+
   const aboutItems = [
     {
-      icon: <Target className="h-8 w-8" />,
+      image: missionImage,
       title: "Our Mission",
       description: content.aboutUsMission,
     },
     {
-      icon: <Cpu className="h-8 w-8" />,
+      image: aiImage,
       title: "AI-Driven Screening",
       description: content.aboutUsScreening,
     },
     {
-      icon: <ShieldCheck className="h-8 w-8" />,
+      image: trustedImage,
       title: "Trusted Hiring",
       description: content.aboutUsHiring,
     },
@@ -35,6 +41,13 @@ export default async function Home() {
       <Header />
       <main className="flex-1">
         <section className="relative w-full py-24 lg:py-40">
+           {heroImage && <Image
+            src={heroImage.imageUrl}
+            alt={heroImage.description}
+            data-ai-hint={heroImage.imageHint}
+            fill
+            className="object-cover -z-10 opacity-20"
+           />}
            <div className="absolute inset-0 bg-[radial-gradient(hsl(var(--muted)),transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
           <div className="container relative flex max-w-[64rem] flex-col items-center gap-6 text-center">
             <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
@@ -66,9 +79,19 @@ export default async function Home() {
             </div>
             <div className="mx-auto grid justify-center gap-6 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
               {aboutItems.map((item) => (
-                <Card key={item.title} className="bg-background">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    {item.icon}
+                <Card key={item.title} className="bg-background overflow-hidden">
+                  {item.image && (
+                    <div className="relative h-48 w-full">
+                        <Image
+                            src={item.image.imageUrl}
+                            alt={item.image.description}
+                            data-ai-hint={item.image.imageHint}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                  )}
+                  <CardHeader>
                     <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
                   </CardHeader>
                   <CardContent>

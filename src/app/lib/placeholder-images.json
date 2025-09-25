@@ -1,0 +1,28 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A futuristic abstract background for the hero section.",
+      "imageUrl": "https://picsum.photos/seed/hero/1280/720",
+      "imageHint": "futuristic abstract"
+    },
+    {
+      "id": "about-mission",
+      "description": "Image representing a futuristic vision or mission.",
+      "imageUrl": "https://picsum.photos/seed/mission/400/300",
+      "imageHint": "futuristic vision"
+    },
+    {
+      "id": "about-ai-screening",
+      "description": "Image representing AI-driven screening technology.",
+      "imageUrl": "https://picsum.photos/seed/aiscreening/400/300",
+      "imageHint": "futuristic ai"
+    },
+    {
+      "id": "about-trusted-hiring",
+      "description": "Image representing a futuristic and trustworthy partnership.",
+      "imageUrl": "https://picsum.photos/seed/trustedhiring/400/300",
+      "imageHint": "futuristic partnership"
+    }
+  ]
+}
