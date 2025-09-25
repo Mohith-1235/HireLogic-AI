@@ -27,8 +27,7 @@
       "required": [
         "id",
         "name",
-        "email",
-        "googleId"
+        "email"
       ]
     },
     "ContactMessage": {
@@ -72,7 +71,9 @@
   "auth": {
     "providers": [
       "password",
-      "anonymous"
+      "anonymous",
+      "google.com",
+      "apple.com"
     ]
   },
   "firestore": {
