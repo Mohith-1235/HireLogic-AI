@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "./ui/card";
+import { useEffect, useState } from "react";
 
 const contactSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -27,6 +29,12 @@ type ContactSchema = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
     const { toast } = useToast();
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
 
     const form = useForm<ContactSchema>({
         resolver: zodResolver(contactSchema),
@@ -45,6 +53,10 @@ export function ContactForm() {
         });
         form.reset();
     };
+
+    if (!isClient) {
+        return null; // or a loading skeleton
+    }
 
     return (
         <Card>

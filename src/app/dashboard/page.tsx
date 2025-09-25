@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
 import { useEffect, useState } from 'react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
@@ -36,6 +36,7 @@ const jobListings = [
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
   const codingImage = PlaceHolderImages.find(p => p.id === 'document-verification-image');
   const [isVerified, setIsVerified] = useState(false);
 
@@ -86,7 +87,7 @@ export default function DashboardPage() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/dashboard">
-                  <SidebarMenuButton tooltip="Latest Job Updates">
+                  <SidebarMenuButton tooltip="Latest Job Updates" isActive={pathname === '/dashboard'}>
                     <Briefcase />
                     <span>Latest Job Updates</span>
                   </SidebarMenuButton>
@@ -94,7 +95,7 @@ export default function DashboardPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/ai-trainer">
-                  <SidebarMenuButton tooltip="AI HR Interview Trainer">
+                  <SidebarMenuButton tooltip="AI HR Interview Trainer" isActive={pathname === '/dashboard/ai-trainer'}>
                     <Bot />
                     <span>AI HR Interview Trainer</span>
                   </SidebarMenuButton>
@@ -102,7 +103,7 @@ export default function DashboardPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/resume-upload">
-                  <SidebarMenuButton tooltip="Resume Upload">
+                  <SidebarMenuButton tooltip="Resume Upload" isActive={pathname === '/dashboard/resume-upload'}>
                     <Upload />
                     <span>Resume Upload</span>
                   </SidebarMenuButton>
@@ -110,7 +111,7 @@ export default function DashboardPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/profile">
-                  <SidebarMenuButton tooltip="Edit Profile">
+                  <SidebarMenuButton tooltip="Edit Profile" isActive={pathname === '/dashboard/profile'}>
                     <User />
                     <span>Edit Profile</span>
                   </SidebarMenuButton>
@@ -118,7 +119,7 @@ export default function DashboardPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/applied-jobs">
-                  <SidebarMenuButton tooltip="Applied Jobs Notifications">
+                  <SidebarMenuButton tooltip="Applied Jobs Notifications" isActive={pathname === '/dashboard/applied-jobs'}>
                     <Bell />
                     <span>Applied Jobs</span>
                   </SidebarMenuButton>
@@ -126,7 +127,7 @@ export default function DashboardPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/certifications">
-                  <SidebarMenuButton tooltip="External Skill Certifications">
+                  <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
                     <span>Certifications</span>
                   </SidebarMenuButton>

@@ -1,11 +1,15 @@
+'use client';
 
 import { AiHrInterviewTrainer } from '@/components/ai-hr-interview-trainer';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Briefcase, Bot, Upload, User, Bell, Award } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function AiTrainerPage() {
+  const pathname = usePathname();
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -20,7 +24,7 @@ export default function AiTrainerPage() {
           <SidebarMenu>
             <SidebarMenuItem>
               <Link href="/dashboard">
-                <SidebarMenuButton tooltip="Latest Job Updates">
+                <SidebarMenuButton tooltip="Latest Job Updates" isActive={pathname === '/dashboard'}>
                   <Briefcase />
                   <span>Latest Job Updates</span>
                 </SidebarMenuButton>
@@ -28,7 +32,7 @@ export default function AiTrainerPage() {
             </SidebarMenuItem>
             <SidebarMenuItem>
               <Link href="/dashboard/ai-trainer">
-                <SidebarMenuButton tooltip="AI HR Interview Trainer">
+                <SidebarMenuButton tooltip="AI HR Interview Trainer" isActive={pathname === '/dashboard/ai-trainer'}>
                   <Bot />
                   <span>AI HR Interview Trainer</span>
                 </SidebarMenuButton>
@@ -36,7 +40,7 @@ export default function AiTrainerPage() {
             </SidebarMenuItem>
             <SidebarMenuItem>
                 <Link href="/dashboard/resume-upload">
-                  <SidebarMenuButton tooltip="Resume Upload">
+                  <SidebarMenuButton tooltip="Resume Upload" isActive={pathname === '/dashboard/resume-upload'}>
                     <Upload />
                     <span>Resume Upload</span>
                   </SidebarMenuButton>
@@ -44,7 +48,7 @@ export default function AiTrainerPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/profile">
-                  <SidebarMenuButton tooltip="Edit Profile">
+                  <SidebarMenuButton tooltip="Edit Profile" isActive={pathname === '/dashboard/profile'}>
                     <User />
                     <span>Edit Profile</span>
                   </SidebarMenuButton>
@@ -52,7 +56,7 @@ export default function AiTrainerPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/applied-jobs">
-                  <SidebarMenuButton tooltip="Applied Jobs Notifications">
+                  <SidebarMenuButton tooltip="Applied Jobs Notifications" isActive={pathname === '/dashboard/applied-jobs'}>
                     <Bell />
                     <span>Applied Jobs</span>
                   </SidebarMenuButton>
@@ -60,7 +64,7 @@ export default function AiTrainerPage() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/certifications">
-                  <SidebarMenuButton tooltip="External Skill Certifications">
+                  <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
                     <span>Certifications</span>
                   </SidebarMenuButton>
