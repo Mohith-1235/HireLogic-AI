@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
@@ -13,15 +13,11 @@ import { useUser } from '@/firebase';
 import { signOutUser } from '@/firebase/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { Skeleton } from '../ui/skeleton';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
   const { user, isUserLoading } = useUser();
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const navItems = [
     { name: 'About Us', href: '#about-us' },
@@ -34,7 +30,7 @@ export function Header() {
 
   const UserMenu = () => {
     if (isUserLoading) {
-      return null; // Or a loading spinner
+      return <Skeleton className="h-8 w-8 rounded-full" />;
     }
 
     if (user) {
@@ -76,7 +72,15 @@ export function Header() {
   
   const MobileUserMenu = () => {
      if (isUserLoading) {
-      return null;
+      return (
+        <div className="flex items-center gap-2 p-4">
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <div className='space-y-2'>
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-3 w-32" />
+          </div>
+        </div>
+      );
     }
 
     if (user) {
@@ -123,38 +127,34 @@ export function Header() {
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
-          {isClient && (
-            <>
-              <UserMenu />
-              <ThemeToggle />
-              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
-                    <div className="p-4">
-                      <Link href="/" className="font-bold text-lg" onClick={() => setIsMobileMenuOpen(false)}>
-                        HireLogic-AI
-                      </Link>
-                    </div>
-                    <Separator />
-                    <nav className="flex flex-col space-y-2 p-4">
-                      {navItems.map((item) => (
-                         <SheetClose asChild key={item.name}>
-                          <a href={item.href} className="text-lg font-medium">
-                            {item.name}
-                          </a>
-                        </SheetClose>
-                      ))}
-                    </nav>
-                    <Separator />
-                    <MobileUserMenu />
-                </SheetContent>
-              </Sheet>
-            </>
-          )}
+          <UserMenu />
+          <ThemeToggle />
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+                <div className="p-4">
+                  <Link href="/" className="font-bold text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                    HireLogic-AI
+                  </Link>
+                </div>
+                <Separator />
+                <nav className="flex flex-col space-y-2 p-4">
+                  {navItems.map((item) => (
+                      <SheetClose asChild key={item.name}>
+                      <a href={item.href} className="text-lg font-medium">
+                        {item.name}
+                      </a>
+                    </SheetClose>
+                  ))}
+                </nav>
+                <Separator />
+                <MobileUserMenu />
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
