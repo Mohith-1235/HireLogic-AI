@@ -201,18 +201,11 @@ export default function DashboardPage() {
                 Welcome, {user.displayName || 'User'}!
             </h1>
             <p className="text-muted-foreground sm:text-lg">
-                {isVerified 
-                    ? "Your documents have been successfully verified."
-                    : "Ready to get started? Let's verify your documents to complete your profile."
-                }
+                Ready to get started? Let's verify your documents to complete your profile.
             </p>
         </div>
-        <Button asChild={!isVerified} size="lg" disabled={isVerified}>
-            {isVerified ? (
-                <span>You're Verified</span>
-            ) : (
-                <Link href="/document-verification">Start Verification</Link>
-            )}
+        <Button asChild size="lg">
+            <Link href="/document-verification">Start Verification</Link>
         </Button>
       </div>
     </div>
