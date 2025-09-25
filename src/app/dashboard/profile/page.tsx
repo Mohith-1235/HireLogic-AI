@@ -1,9 +1,11 @@
 
+'use client';
+
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Briefcase, Bot, Upload, User, Bell, Award } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { EditProfileForm } from '@/components/edit-profile-form';
 
 export default function ProfilePage() {
   return (
@@ -71,12 +73,7 @@ export default function ProfilePage() {
       </Sidebar>
       <SidebarInset>
         <main className="p-4 sm:p-6 lg:p-8">
-           <Card>
-                <CardHeader>
-                    <CardTitle>Edit Profile</CardTitle>
-                    <CardDescription>This page is under construction. You will soon be able to edit your profile details here.</CardDescription>
-                </CardHeader>
-            </Card>
+           <EditProfileForm />
         </main>
       </SidebarInset>
     </SidebarProvider>
