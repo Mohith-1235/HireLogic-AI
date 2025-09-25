@@ -1,27 +1,18 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Briefcase, Bot, Upload, User, Bell, Award, Search, Settings } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-
-type DocumentStatus = 'Not Uploaded' | 'Ready to Verify' | 'Verifying...' | 'Genuine' | 'Fraud' | 'Error';
-interface DocumentState {
-  id: string;
-  title: string;
-  mandatory: boolean;
-  status: DocumentStatus;
-}
-const mandatoryDocIds = ['tenth', 'twelfth', 'degree'];
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const jobListings = [
     { id: 1, title: 'Frontend Developer', company: 'Innovate Inc.', location: 'Remote', saved: false, applied: true, postedAt: '2 hours ago' },
@@ -31,13 +22,42 @@ const jobListings = [
     { id: 5, title: 'UI/UX Designer', company: 'Creative Solutions', location: 'Remote', saved: true, applied: true, postedAt: '1 week ago' },
 ];
 
+function DashboardHeader() {
+  const { user, isUserLoading } = useUser();
+
+  if (isUserLoading) {
+    return (
+      <div className="flex items-center gap-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  return (
+    <div className="flex items-center gap-4">
+      <Avatar className="h-16 w-16">
+        <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
+        <AvatarFallback>{user.displayName?.charAt(0) || user.email?.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <div>
+        <h1 className="text-2xl font-bold sm:text-3xl">Welcome back, {user.displayName || 'User'}!</h1>
+        <p className="text-muted-foreground">{user.email}</p>
+      </div>
+    </div>
+  )
+}
+
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const pathname = usePathname();
-  const codingImage = PlaceHolderImages.find(p => p.id === 'document-verification-image');
-  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     // If user is not logged in and we're done loading, redirect to home
@@ -46,32 +66,12 @@ export default function DashboardPage() {
     }
   }, [user, isUserLoading, router]);
 
-  useEffect(() => {
-    // This effect runs only on the client side
-    try {
-      const savedState = localStorage.getItem('hirelogic_doc_verification_state');
-      if (savedState) {
-        const parsedState = JSON.parse(savedState);
-        const savedDocs: DocumentState[] = parsedState.documents || [];
-        
-        const allMandatoryVerified = mandatoryDocIds.every(id => {
-            const doc = savedDocs.find(d => d.id === id);
-            return doc?.status === 'Genuine';
-        });
-
-        setIsVerified(allMandatoryVerified);
-      }
-    } catch (e) {
-      console.error("Failed to read verification state from localStorage", e);
-    }
-  }, []);
 
   // Don't render anything until we know the user's auth state
   if (isUserLoading || !user) {
     return null;
   }
 
-  if (isVerified) {
     return (
       <SidebarProvider>
         <Sidebar>
@@ -144,6 +144,7 @@ export default function DashboardPage() {
         </Sidebar>
         <SidebarInset>
              <main className="p-4 sm:p-6 lg:p-8 space-y-6">
+                <DashboardHeader />
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Latest Job Updates</h1>
@@ -187,34 +188,4 @@ export default function DashboardPage() {
         </SidebarInset>
       </SidebarProvider>
     );
-  }
-
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background text-center p-4">
-      <div className="flex flex-col items-center gap-8 max-w-md">
-        {codingImage && (
-          <div className="relative h-48 w-48">
-            <Image
-              src={codingImage.imageUrl}
-              alt={codingImage.description}
-              data-ai-hint={codingImage.imageHint}
-              fill
-              className="object-cover rounded-full shadow-lg"
-            />
-          </div>
-        )}
-        <div className="space-y-4">
-            <h1 className="font-headline text-3xl font-bold sm:text-4xl">
-                Welcome, {user.displayName || 'User'}!
-            </h1>
-            <p className="text-muted-foreground sm:text-lg">
-                Ready to get started? Let's verify your documents to complete your profile.
-            </p>
-        </div>
-        <Button asChild size="lg">
-            <Link href="/document-verification">Start Verification</Link>
-        </Button>
-      </div>
-    </div>
-  );
 }

@@ -5,6 +5,40 @@ import { Briefcase, Bot, Upload, User, Bell, Award, Settings } from 'lucide-reac
 import Link from 'next/link';
 import { EditProfileForm } from '@/components/edit-profile-form';
 import { usePathname } from 'next/navigation';
+import { useUser } from '@/firebase';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
+
+function DashboardHeader() {
+  const { user, isUserLoading } = useUser();
+
+  if (isUserLoading) {
+    return (
+      <div className="flex items-center gap-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  return (
+    <div className="flex items-center gap-4">
+      <Avatar className="h-16 w-16">
+        <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
+        <AvatarFallback>{user.displayName?.charAt(0) || user.email?.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <div>
+        <h1 className="text-2xl font-bold sm:text-3xl">Welcome back, {user.displayName || 'User'}!</h1>
+        <p className="text-muted-foreground">{user.email}</p>
+      </div>
+    </div>
+  )
+}
 
 export default function ProfilePage() {
   const pathname = usePathname();
@@ -80,7 +114,8 @@ export default function ProfilePage() {
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-4 sm:p-6 lg:p-8 space-y-6">
+           <DashboardHeader />
            <EditProfileForm />
         </main>
       </SidebarInset>
