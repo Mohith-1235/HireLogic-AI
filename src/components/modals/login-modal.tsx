@@ -155,6 +155,7 @@ export function LoginModal({ afterOpen, isMobile = false }: LoginModalProps) {
         </DialogHeader>
         <div className="grid gap-4">
             <Button variant="outline" onClick={handleGoogleSignIn}><GoogleIcon /> Google</Button>
+            <Button variant="outline" onClick={handleAppleSignIn}><AppleIcon /> Apple</Button>
         </div>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
