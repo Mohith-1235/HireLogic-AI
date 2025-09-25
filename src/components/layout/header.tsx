@@ -29,7 +29,7 @@ export function Header() {
   ];
   
   if (user) {
-    navItems.push({ name: 'Verification', href: '/document-verification' });
+    navItems.push({ name: 'Dashboard', href: '/dashboard' });
   }
 
   const UserMenu = () => {

@@ -29,6 +29,7 @@ import { signInWithGoogle, signInWithApple } from "@/firebase/auth";
 import { useAuth } from "@/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Separator } from "../ui/separator";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -73,6 +74,7 @@ export function LoginModal({ afterOpen, isMobile = false }: LoginModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const auth = useAuth();
+  const router = useRouter();
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -89,37 +91,38 @@ export function LoginModal({ afterOpen, isMobile = false }: LoginModalProps) {
     }
   };
 
+  const handleSuccess = () => {
+    setIsOpen(false);
+    toast({
+      title: "Login Successful",
+      description: "Welcome back!",
+    });
+    router.push('/dashboard');
+  };
+
+  const handleError = (error: any) => {
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: error.message,
+    });
+  }
+
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      setIsOpen(false);
-      toast({
-        title: "Login Successful",
-        description: "Welcome back!",
-      });
+      handleSuccess();
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error.message,
-      });
+      handleError(error);
     }
   };
 
   const handleAppleSignIn = async () => {
     try {
       await signInWithApple();
-      setIsOpen(false);
-      toast({
-        title: "Login Successful",
-        description: "Welcome back!",
-      });
+      handleSuccess();
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error.message,
-      });
+      handleError(error);
     }
   };
 
@@ -127,17 +130,9 @@ export function LoginModal({ afterOpen, isMobile = false }: LoginModalProps) {
   const onSubmit = async (data: LoginSchema) => {
     try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
-        toast({
-            title: "Login Successful",
-            description: "Welcome back!",
-        });
-        setIsOpen(false);
+        handleSuccess();
     } catch (error: any) {
-        toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: error.message,
-        });
+        handleError(error);
     }
   };
 

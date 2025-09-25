@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithGoogle, signInWithApple } from "@/firebase/auth";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z
   .object({
@@ -79,6 +80,7 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const auth = useAuth();
+  const router = useRouter();
 
   const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
@@ -97,54 +99,47 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
     }
   };
 
+  const handleSuccess = () => {
+    setIsOpen(false);
+    toast({
+      title: "Account Created",
+      description: "Welcome to HireLogic-AI!",
+    });
+    router.push('/dashboard');
+  };
+
+  const handleError = (error: any) => {
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: error.message,
+    });
+  };
+
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
-      setIsOpen(false);
-      toast({
-        title: "Account Created",
-        description: "Welcome to HireLogic-AI!",
-      });
+      handleSuccess();
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error.message,
-      });
+      handleError(error);
     }
   };
 
   const handleAppleSignIn = async () => {
     try {
       await signInWithApple();
-      setIsOpen(false);
-      toast({
-        title: "Account Created",
-        description: "Welcome to HireLogic-AI!",
-      });
+      handleSuccess();
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error.message,
-      });
+      handleError(error);
     }
   };
 
   const onSubmit = async (data: SignupSchema) => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
-      toast({
-          title: "Account Created",
-          description: "Welcome to HireLogic-AI!",
-      });
-      setIsOpen(false);
+      handleSuccess();
     } catch (error: any) {
-      toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: error.message,
-      });
+      handleError(error);
     }
   };
 
