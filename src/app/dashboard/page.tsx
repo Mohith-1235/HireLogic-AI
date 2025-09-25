@@ -8,7 +8,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
 import { useEffect, useState } from 'react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award, Search } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Search, Settings } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -130,6 +130,14 @@ export default function DashboardPage() {
                   <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
                     <span>Certifications</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/settings">
+                  <SidebarMenuButton tooltip="Settings" isActive={pathname === '/dashboard/settings'}>
+                    <Settings />
+                    <span>Settings</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

@@ -50,13 +50,13 @@ export default async function Home() {
            />}
            <div className="absolute inset-0 bg-[radial-gradient(hsl(var(--muted)),transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
           <div className="container relative flex max-w-[64rem] flex-col items-center gap-6 text-center">
-            <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
               {content.headline}
             </h1>
-            <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+            <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8 animate-fade-in-up [animation-delay:200ms]">
               {content.subtext}
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 animate-fade-in-up [animation-delay:400ms]">
               <Button asChild size="lg">
                 <a href="#contact">Get Started</a>
               </Button>
@@ -78,26 +78,28 @@ export default async function Home() {
               </p>
             </div>
             <div className="mx-auto grid justify-center gap-6 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-              {aboutItems.map((item) => (
-                <Card key={item.title} className="bg-background overflow-hidden">
-                  {item.image && (
-                    <div className="relative h-48 w-full">
-                        <Image
-                            src={item.image.imageUrl}
-                            alt={item.image.description}
-                            data-ai-hint={item.image.imageHint}
-                            fill
-                            className="object-cover"
-                        />
-                    </div>
-                  )}
-                  <CardHeader>
-                    <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </CardContent>
-                </Card>
+              {aboutItems.map((item, index) => (
+                <div key={item.title} className="animate-fade-in-up" style={{animationDelay: `${index * 150}ms`}}>
+                    <Card className="bg-background overflow-hidden h-full">
+                    {item.image && (
+                        <div className="relative h-48 w-full">
+                            <Image
+                                src={item.image.imageUrl}
+                                alt={item.image.description}
+                                data-ai-hint={item.image.imageHint}
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                    )}
+                    <CardHeader>
+                        <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">{item.description}</p>
+                    </CardContent>
+                    </Card>
+                </div>
               ))}
             </div>
           </div>

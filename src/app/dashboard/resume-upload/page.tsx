@@ -2,7 +2,7 @@
 
 import { ResumeUpload } from '@/components/resume-upload';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Settings } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -67,6 +67,14 @@ export default function ResumeUploadPage() {
                   <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
                     <span>Certifications</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/settings">
+                  <SidebarMenuButton tooltip="Settings" isActive={pathname === '/dashboard/settings'}>
+                    <Settings />
+                    <span>Settings</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
