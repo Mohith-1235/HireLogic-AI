@@ -1,5 +1,7 @@
+
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
-const jobListings = [
+const initialJobListings = [
     { id: 1, title: 'Frontend Developer', company: 'Innovate Inc.', location: 'Remote', saved: false, applied: true, postedAt: '2 hours ago' },
     { id: 2, title: 'Backend Engineer', company: 'Data Systems', location: 'New York, NY', saved: true, applied: false, postedAt: '1 day ago' },
     { id: 3, title: 'AI/ML Specialist', company: 'Future AI', location: 'San Francisco, CA', saved: false, applied: false, postedAt: '3 days ago' },
@@ -16,6 +18,14 @@ const jobListings = [
 ];
 
 export default function DashboardPage() {
+    const [jobListings, setJobListings] = useState(initialJobListings);
+
+    const handleToggleSave = (id: number) => {
+        setJobListings(jobListings.map(job => 
+            job.id === id ? { ...job, saved: !job.saved } : job
+        ));
+    };
+
     return (
       <>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -52,7 +62,9 @@ export default function DashboardPage() {
                       </CardContent>
                       <CardFooter className="flex gap-2">
                           <Button className="w-full">Apply Now</Button>
-                          <Button variant="outline" className="w-full">{job.saved ? 'Unsave' : 'Save'}</Button>
+                          <Button variant="outline" className="w-full" onClick={() => handleToggleSave(job.id)}>
+                            {job.saved ? 'Unsave' : 'Save'}
+                          </Button>
                       </CardFooter>
                   </Card>
               ))}
