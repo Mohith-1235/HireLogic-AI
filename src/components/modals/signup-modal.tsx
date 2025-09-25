@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithGoogle, signInWithApple } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 
@@ -136,7 +136,8 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
 
   const onSubmit = async (data: SignupSchema) => {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await updateProfile(userCredential.user, { displayName: data.name });
       handleSuccess();
     } catch (error: any) {
       handleError(error);
