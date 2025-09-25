@@ -21,7 +21,7 @@ export default function ProfilePage() {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <Link href="/dashboard" legacyBehavior passHref>
+              <Link href="/dashboard">
                 <SidebarMenuButton tooltip="Latest Job Updates">
                   <Briefcase />
                   <span>Latest Job Updates</span>
@@ -29,7 +29,7 @@ export default function ProfilePage() {
               </Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/dashboard/ai-trainer" legacyBehavior passHref>
+              <Link href="/dashboard/ai-trainer">
                 <SidebarMenuButton tooltip="AI HR Interview Trainer">
                   <Bot />
                   <span>AI HR Interview Trainer</span>
@@ -37,7 +37,7 @@ export default function ProfilePage() {
               </Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
-                <Link href="/dashboard/resume-upload" legacyBehavior passHref>
+                <Link href="/dashboard/resume-upload">
                   <SidebarMenuButton tooltip="Resume Upload">
                     <Upload />
                     <span>Resume Upload</span>
@@ -45,7 +45,7 @@ export default function ProfilePage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard/profile" legacyBehavior passHref>
+                <Link href="/dashboard/profile">
                   <SidebarMenuButton tooltip="Edit Profile">
                     <User />
                     <span>Edit Profile</span>
@@ -53,7 +53,7 @@ export default function ProfilePage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard/applied-jobs" legacyBehavior passHref>
+                <Link href="/dashboard/applied-jobs">
                   <SidebarMenuButton tooltip="Applied Jobs Notifications">
                     <Bell />
                     <span>Applied Jobs</span>
@@ -61,7 +61,7 @@ export default function ProfilePage() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard/certifications" legacyBehavior passHref>
+                <Link href="/dashboard/certifications">
                   <SidebarMenuButton tooltip="External Skill Certifications">
                     <Award />
                     <span>Certifications</span>
