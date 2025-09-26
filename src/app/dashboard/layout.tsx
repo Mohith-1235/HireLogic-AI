@@ -3,7 +3,7 @@
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
@@ -143,6 +143,14 @@ export default function DashboardLayout({
                   <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
                     <span>Certifications</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <Link href="/document-verification">
+                  <SidebarMenuButton tooltip="Document Verification" isActive={pathname === '/document-verification'}>
+                    <ShieldCheck />
+                    <span>Verification</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
