@@ -14,7 +14,7 @@ const freeCertifications = [
         provider: 'SQL Academy',
         description: 'Learn SQL from scratch and become a data wizard. This course covers everything from basic queries to advanced topics.',
         tags: ['SQL', 'Databases', 'Data Analysis'],
-        url: '#',
+        url: 'https://www.udemy.com/course/mastering-sql-with-mysql-from-basics-to-advanced/?couponCode=196D5B1B8767387C2D4E',
     }
 ];
 
@@ -42,7 +42,7 @@ export default function FreeCertificationPage() {
                     </CardContent>
                     <CardFooter>
                         <Button asChild className="w-full">
-                            <Link href={cert.url}>
+                            <Link href={cert.url} target="_blank" rel="noopener noreferrer">
                                 Start Course <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                         </Button>
