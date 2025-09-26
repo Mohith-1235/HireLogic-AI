@@ -41,6 +41,12 @@
       "description": "A static certificate for React - The Complete Guide.",
       "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762194883199_React-The_Complete_Guide_Completion_Certificate.png",
       "imageHint": "react certificate"
+    },
+    {
+      "id": "google-ux-certificate",
+      "description": "Google UX Design Professional Certificate for G.Vignesh.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762281861783_image.jpeg",
+      "imageHint": "google certificate"
     }
   ]
 }
