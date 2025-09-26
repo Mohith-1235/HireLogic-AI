@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -27,7 +28,7 @@ const GenerateInitialHomepageContentOutputSchema = z.object({
 });
 export type GenerateInitialHomepageContentOutput = z.infer<typeof GenerateInitialHomepageContentOutputSchema>;
 
-export async function generateInitialHomepageContent(input: GenerateInitialHomepageContentInput): Promise<GenerateInitialHomepageContentOutput> {
+export async function generateInitialHomepageContent(input: GenerateInitialHomepageContentInput): Promise<GenerateInitialHomepageContentOutput | null> {
   return generateInitialHomepageContentFlow(input);
 }
 
@@ -50,10 +51,16 @@ const generateInitialHomepageContentFlow = ai.defineFlow(
   {
     name: 'generateInitialHomepageContentFlow',
     inputSchema: GenerateInitialHomepageContentInputSchema,
-    outputSchema: GenerateInitialHomepageContentOutputSchema,
+    outputSchema: GenerateInitialHomepageContentOutputSchema.nullable(),
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      return output!;
+    } catch (error) {
+      console.error('Error generating homepage content:', error);
+      // In case of an external service error, return null to allow the frontend to use default content.
+      return null;
+    }
   }
 );

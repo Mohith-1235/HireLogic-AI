@@ -29,7 +29,10 @@ export default function Home() {
       prompt:
         "HireLogic-AI is a recruiting startup that uses AI for candidate screening and matching to streamline the hiring process.",
     }).then(generatedContent => {
-      setContent(generatedContent);
+      if (generatedContent) {
+        setContent(generatedContent);
+      }
+      // If generatedContent is null, we'll just use the defaultContent.
     }).catch(error => {
       console.error("Failed to generate homepage content, using default:", error);
       // content is already defaulted
