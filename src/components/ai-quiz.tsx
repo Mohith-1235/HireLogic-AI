@@ -14,12 +14,17 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
+import { Score } from './quiz-scoreboard';
 
 type QuizState = 'idle' | 'loading' | 'active' | 'finished';
 type QuizQuestion = GenerateQuizOutput['questions'][0];
 type QuizDifficulty = GenerateQuizInput['difficulty'];
 
-export function AiQuiz() {
+interface AiQuizProps {
+    onQuizFinish: (score: Score) => void;
+}
+
+export function AiQuiz({ onQuizFinish }: AiQuizProps) {
     const [topic, setTopic] = useState('React');
     const [subTopic, setSubTopic] = useState('');
     const [difficulty, setDifficulty] = useState<QuizDifficulty>('Medium');
@@ -76,8 +81,9 @@ export function AiQuiz() {
         setUserAnswers(newAnswers);
 
         // Check if the answer is correct
+        const currentScore = selectedAnswer === questions[currentQuestionIndex].answer ? score + 1 : score;
         if (selectedAnswer === questions[currentQuestionIndex].answer) {
-            setScore(prev => prev + 1);
+            setScore(currentScore);
         }
 
         setSelectedAnswer(null);
@@ -86,6 +92,20 @@ export function AiQuiz() {
             setCurrentQuestionIndex(prev => prev + 1);
         } else {
             setQuizState('finished');
+            const finalScore = {
+                topic: subTopic ? `${topic}: ${subTopic}` : topic,
+                score: `${currentScore}/${questions.length}`,
+                difficulty: difficulty,
+                date: new Date().toISOString(),
+            };
+
+            // Save to local storage
+            const savedScores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+            savedScores.push(finalScore);
+            localStorage.setItem('quizScores', JSON.stringify(savedScores));
+
+            // Notify parent
+            onQuizFinish(finalScore);
         }
     };
     
@@ -243,7 +263,7 @@ export function AiQuiz() {
     };
 
     return (
-        <Card className="max-w-2xl mx-auto mt-6 w-full">
+        <Card>
             {renderQuizContent()}
         </Card>
     );
