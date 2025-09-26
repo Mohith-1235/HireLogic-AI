@@ -3,7 +3,7 @@
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield, BellRing } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
@@ -135,22 +135,6 @@ export default function DashboardLayout({
                   <SidebarMenuButton tooltip="Settings" isActive={pathname === '/dashboard/settings'}>
                     <Settings />
                     <span>Settings</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/notifications">
-                  <SidebarMenuButton tooltip="Notifications" isActive={pathname === '/dashboard/notifications'}>
-                    <BellRing />
-                    <span>Notifications</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/security">
-                  <SidebarMenuButton tooltip="Security" isActive={pathname === '/dashboard/security'}>
-                    <Shield />
-                    <span>Security</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
