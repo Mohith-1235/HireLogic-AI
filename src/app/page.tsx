@@ -13,8 +13,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const defaultContent: GenerateInitialHomepageContentOutput = {
-  headline: "Revolutionize Your Hiring with AI",
-  subtext: "Streamline candidate screening and matching to find the perfect fit, faster.",
+  headline: "Hire Smarter, Not Harder: AI-Powered Recruitment Solutions",
+  subtext: "HireLogic-AI revolutionizes hiring by using advanced AI for precise candidate screening and matching, streamlining your recruitment process.",
   aboutUsMission: "Our mission is to make hiring more efficient and equitable by leveraging the power of artificial intelligence.",
   aboutUsScreening: "Our AI-driven screening process analyzes candidate profiles to identify top talent with unparalleled accuracy.",
   aboutUsHiring: "We are committed to building a trusted hiring ecosystem that benefits both employers and candidates.",
@@ -41,7 +41,7 @@ export default function Home() {
     });
   }, []);
 
-  const heroImage = PlaceHolderImages.find(p => p.id === "hero-background");
+  const heroImage = PlaceHolderImages.find(p => p.id === "hero-side-image");
   const missionImage = PlaceHolderImages.find(p => p.id === "about-mission");
   const aiImage = PlaceHolderImages.find(p => p.id === "about-ai-screening");
   const trustedImage = PlaceHolderImages.find(p => p.id === "about-trusted-hiring");
@@ -69,28 +69,34 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <section className="relative w-full py-24 lg:py-40">
-           {heroImage && <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
-            data-ai-hint={heroImage.imageHint}
-            fill
-            className="object-cover -z-10 opacity-10"
-           />}
-           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
-          <div className="container relative flex max-w-[64rem] flex-col items-center gap-6 text-center">
-            <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
-              {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.headline}
-            </h1>
-            <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8 animate-fade-in-up [animation-delay:200ms]">
-              {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.subtext}
-            </p>
-            <div className="flex gap-4 animate-fade-in-up [animation-delay:400ms]">
-              <LoginModal triggerButton={<Button size="lg">Get Started</Button>} />
-              <Button asChild size="lg" variant="outline">
-                <a href="#contact">Contact Us</a>
-              </Button>
+           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent -z-10"></div>
+            <div className="container grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="flex flex-col items-start gap-6 text-left">
+                    <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
+                    {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.headline}
+                    </h1>
+                    <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8 animate-fade-in-up [animation-delay:200ms]">
+                    {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.subtext}
+                    </p>
+                    <div className="flex gap-4 animate-fade-in-up [animation-delay:400ms]">
+                    <LoginModal triggerButton={<Button size="lg">Get Started</Button>} />
+                    <Button asChild size="lg" variant="outline">
+                        <a href="#contact">Contact Us</a>
+                    </Button>
+                    </div>
+                </div>
+                 {heroImage && (
+                    <div className="relative h-80 w-full animate-fade-in [animation-delay:600ms] rounded-xl overflow-hidden shadow-2xl">
+                        <Image
+                            src={heroImage.imageUrl}
+                            alt={heroImage.description}
+                            data-ai-hint={heroImage.imageHint}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                 )}
             </div>
-          </div>
         </section>
 
         <section id="about-us" className="w-full bg-secondary/50 py-12 md:py-24 lg:py-32">
