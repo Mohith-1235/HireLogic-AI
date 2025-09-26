@@ -14,6 +14,14 @@ const completedCertifications = [
     date: '2023-10-26',
     credentialUrl: '#',
     image: PlaceHolderImages.find(p => p.id === 'google-ux-certificate'),
+  },
+  {
+    id: 2,
+    title: 'React - The Complete Guide',
+    issuer: 'Udemy',
+    date: '2024-01-15',
+    credentialUrl: '#',
+    image: PlaceHolderImages.find(p => p.id === 'react-certificate-static'),
   }
 ];
 
