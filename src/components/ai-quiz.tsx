@@ -13,6 +13,7 @@ import { Loader2, BrainCircuit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Badge } from './ui/badge';
 
 type QuizState = 'idle' | 'loading' | 'active' | 'finished';
 type QuizQuestion = GenerateQuizOutput['questions'][0];
