@@ -29,9 +29,6 @@ function Logo() {
       >
         <path d="M10.5 13.5C12.9853 13.5 15 11.4853 15 9C15 6.51472 12.9853 4.5 10.5 4.5C8.01472 4.5 6 6.51472 6 9C6 10.0577 6.35373 11.0255 6.93888 11.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         <path d="M19 19L14.65 14.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M10.5 13.5C8.01472 13.5 6 15.5147 6 18C6 19.0577 6.35373 20.0255 6.93888 20.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M10.5 4.5C12.9853 4.5 15 2.48528 15 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        <path d="M10.5 24C12.9853 24 15 21.9853 15 19.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       </svg>
       <span className="font-bold text-lg">HireLogic-AI</span>
     </div>
