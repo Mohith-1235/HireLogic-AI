@@ -27,10 +27,11 @@ function Logo() {
         xmlns="http://www.w3.org/2000/svg"
         className="text-primary"
       >
-        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx="11" cy="9.5" r="2.5" stroke="currentColor" strokeWidth="2"/>
-        <path d="M6.5 17.5C6.5 15.2909 8.29086 13.5 10.5 13.5H11.5C13.7091 13.5 15.5 15.2909 15.5 17.5" stroke="currentColor" strokeWidth="2"/>
+        <path d="M10.5 13.5C12.9853 13.5 15 11.4853 15 9C15 6.51472 12.9853 4.5 10.5 4.5C8.01472 4.5 6 6.51472 6 9C6 10.0577 6.35373 11.0255 6.93888 11.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M19 19L14.65 14.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10.5 13.5C8.01472 13.5 6 15.5147 6 18C6 19.0577 6.35373 20.0255 6.93888 20.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M10.5 4.5C12.9853 4.5 15 2.48528 15 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        <path d="M10.5 24C12.9853 24 15 21.9853 15 19.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
       </svg>
       <span className="font-bold text-lg">HireLogic-AI</span>
     </div>
