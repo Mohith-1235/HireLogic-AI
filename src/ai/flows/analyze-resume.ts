@@ -12,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const AnalyzeResumeInputSchema = z.object({
+const AnalyzeResumeInputSchema = z.object({
   resumeFile: z.object({
       url: z.string().describe("A data URI of the resume file. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
       contentType: z.string().describe("The MIME type of the file, e.g., 'application/pdf'.")
@@ -20,7 +20,7 @@ export const AnalyzeResumeInputSchema = z.object({
 });
 export type AnalyzeResumeInput = z.infer<typeof AnalyzeResumeInputSchema>;
 
-export const AnalyzeResumeOutputSchema = z.object({
+const AnalyzeResumeOutputSchema = z.object({
   domains: z.array(z.object({
     name: z.string().describe("The name of the professional domain, e.g., 'Frontend Development'."),
     confidence: z.enum(['High', 'Medium', 'Low']).describe("The confidence level of the domain match.")

@@ -5,12 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
-import { Switch } from './ui/switch';
-import { Label } from './ui/label';
 import { Separator } from './ui/separator';
 import { UploadCloud, File as FileIcon, X, BrainCircuit, Tags, Loader2 } from 'lucide-react';
-import { analyzeResume, AnalyzeResumeOutput } from '@/ai/flows/analyze-resume';
+import { analyzeResume } from '@/ai/flows/analyze-resume';
 import { useToast } from '@/hooks/use-toast';
+
+type AnalyzeResumeOutput = {
+    domains: { name: string; confidence: 'High' | 'Medium' | 'Low' }[];
+    skills: string[];
+};
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_FILE_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
