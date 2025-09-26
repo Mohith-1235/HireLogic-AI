@@ -115,6 +115,12 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
             title: "Sign Up Failed",
             description: "An account with this email already exists. Please log in or use a different email.",
         });
+    } else if (error.code === 'auth/operation-not-allowed') {
+        toast({
+            variant: 'destructive',
+            title: 'Sign-up method not enabled',
+            description: 'This sign-up method is not enabled for this app. Please enable it in the Firebase console.',
+        });
     } else {
         toast({
             variant: "destructive",
