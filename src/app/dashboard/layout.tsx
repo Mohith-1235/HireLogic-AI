@@ -118,7 +118,7 @@ export default function DashboardLayout({
                 <Link href="/dashboard/certifications">
                   <SidebarMenuButton tooltip="External Skill Certifications" isActive={pathname === '/dashboard/certifications'}>
                     <Award />
-                    <span>certification you completed</span>
+                    <span>Certifications</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

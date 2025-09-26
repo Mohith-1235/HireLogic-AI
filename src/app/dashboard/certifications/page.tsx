@@ -13,7 +13,7 @@ export default function CertificationsPage() {
     <>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight">certification you completed</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Certifications</h1>
                 <p className="text-muted-foreground">Manage your external skill certifications.</p>
             </div>
         </div>
