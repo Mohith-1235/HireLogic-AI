@@ -1,19 +1,17 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow users to read and update their own profile data.
-    // They can create their own document, but cannot delete it.
     match /users/{userId} {
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow read, update: if request.auth != null && request.auth.uid == userId;
-      allow delete: if false;
+      // Users can read, create, and update their own document
+      allow read, create, update: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Contact messages can be created by anyone, but only read by authenticated users for now.
-    // In a real application, you would restrict read access to administrators.
-    match /contactMessages/{contactMessageId} {
+    match /contactMessages/{messageId} {
+      // Anyone can create a contact message
       allow create: if true;
-      allow read, update, delete: if request.auth != null;
+      // Only authenticated users (e.g., admins you might define later) can read/list them.
+      // For now, we'll restrict reads to prevent public access.
+      allow read, list, update, delete: if false; 
     }
   }
 }
