@@ -1,3 +1,4 @@
+
 'use client';
 import {
   getAuth,
@@ -62,6 +63,7 @@ export async function signUpWithEmail(name: string, email: string, password: str
             name: name,
             email: user.email,
             photoURL: user.photoURL,
+            verified_academics: false, // Set verification status to false for new users
         };
         // This is a non-blocking update
         updateUserDocument(firestore, user.uid, userData);
