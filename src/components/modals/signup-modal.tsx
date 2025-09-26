@@ -28,6 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { signUpWithEmail, signInWithGoogle, signInWithApple } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
+import { Separator } from "../ui/separator";
 
 const signupSchema = z
   .object({
@@ -101,9 +102,9 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
     handleOpenChange(false);
     toast({
       title: "Account Created",
-      description: "Welcome to HireLogic-AI! Redirecting you to the dashboard.",
+      description: "Welcome to HireLogic-AI! Please verify your documents to continue.",
     });
-    router.push('/dashboard');
+    router.push('/document-verification');
   };
 
   const handleError = (error: any) => {
