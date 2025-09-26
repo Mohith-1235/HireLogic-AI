@@ -15,8 +15,9 @@ export default function CertificationsPage() {
                 <p className="text-muted-foreground">Manage your external skill certifications.</p>
             </div>
         </div>
-        <div className="flex justify-center items-center py-8">
+        <div className="flex flex-col justify-center items-center py-8">
            {certificateImage && (
+            <>
               <Image
                 src={certificateImage.imageUrl}
                 alt={certificateImage.description}
@@ -25,6 +26,8 @@ export default function CertificationsPage() {
                 height={600}
                 className="rounded-lg shadow-lg"
               />
+              <p className="text-center text-lg font-semibold mt-4">React course completion</p>
+            </>
             )}
         </div>
     </>
