@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { JobApplicationForm } from '@/components/job-application-form';
 
 const initialJobListings = [
     { id: 1, title: 'Frontend Developer', company: 'Innovate Inc.', location: 'Remote', saved: false, applied: true, postedAt: '2 hours ago' },
@@ -18,8 +20,11 @@ const initialJobListings = [
     { id: 5, title: 'UI/UX Designer', company: 'Creative Solutions', location: 'Remote', saved: true, applied: true, postedAt: '1 week ago' },
 ];
 
+export type JobListing = typeof initialJobListings[0];
+
 export default function DashboardPage() {
     const [jobListings, setJobListings] = useState(initialJobListings);
+    const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
     const { toast } = useToast();
 
     const handleToggleSave = (id: number) => {
@@ -28,10 +33,11 @@ export default function DashboardPage() {
         ));
     };
 
-    const handleApply = (id: number) => {
+    const handleApplySuccess = (id: number) => {
         setJobListings(jobListings.map(job =>
             job.id === id ? { ...job, applied: true } : job
         ));
+        setSelectedJob(null); // Close the dialog
         toast({
             title: 'Application Sent!',
             description: 'Your application has been successfully submitted.',
@@ -73,9 +79,28 @@ export default function DashboardPage() {
                           </div>
                       </CardContent>
                       <CardFooter className="flex gap-2">
-                          <Button className="w-full" onClick={() => handleApply(job.id)} disabled={job.applied}>
-                            {job.applied ? 'Applied' : 'Apply Now'}
-                          </Button>
+                        <Dialog open={selectedJob?.id === job.id} onOpenChange={(isOpen) => !isOpen && setSelectedJob(null)}>
+                            <DialogTrigger asChild>
+                                <Button className="w-full" onClick={() => setSelectedJob(job)} disabled={job.applied}>
+                                    {job.applied ? 'Applied' : 'Apply Now'}
+                                </Button>
+                            </DialogTrigger>
+                            {selectedJob?.id === job.id && (
+                               <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Apply for {selectedJob.title}</DialogTitle>
+                                        <DialogDescription>
+                                            Submit your application for the position at {selectedJob.company}.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <JobApplicationForm 
+                                        job={selectedJob} 
+                                        onApplySuccess={() => handleApplySuccess(selectedJob.id)}
+                                    />
+                                </DialogContent>
+                            )}
+                        </Dialog>
+
                           <Button variant="outline" className="w-full" onClick={() => handleToggleSave(job.id)}>
                             {job.saved ? 'Unsave' : 'Save'}
                           </Button>
