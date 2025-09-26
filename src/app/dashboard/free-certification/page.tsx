@@ -23,6 +23,14 @@ const freeCertifications = [
         description: 'Mastering cybersecurity and ethical hacking builds skills in threat detection, penetration testing, and system defense—crucial for roles like security analyst, SOC engineer, and penetration tester—ensuring high demand and long-term career stability.',
         tags: ['Cybersecurity', 'Ethical Hacking', 'Penetration Testing'],
         url: 'https://www.udemy.com/course/cybersecurity-mastery-hacking-techniques/?couponCode=DISCUDEMY',
+    },
+    {
+        id: 3,
+        title: 'Diploma in Office Management',
+        provider: 'Udemy',
+        description: 'A diploma in office management boosts employability by validating practical skills in scheduling, documentation, communication, basic accounting, and office software to keep daily operations running smoothly. It opens doors to administrative, coordinator, and executive assistant roles across sectors with a clear pathway to office management.',
+        tags: ['Office Management', 'Admin', 'Productivity'],
+        url: 'https://www.udemy.com/course/diploma-in-office-management/?couponCode=2257567C2A286BC13B20',
     }
 ];
 
