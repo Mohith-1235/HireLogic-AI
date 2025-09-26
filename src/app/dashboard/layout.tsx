@@ -163,12 +163,12 @@ export default function DashboardLayout({
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard/notebook-lm">
-                    <SidebarMenuButton tooltip="NoteBook LM" isActive={pathname === '/dashboard/notebook-lm'}>
+                <a href="https://notebooklm.google.com/notebook/da6ca917-dbb8-41aa-9cdd-47e897842076" target="_blank" rel="noopener noreferrer">
+                    <SidebarMenuButton tooltip="NoteBook LM">
                         <BookText />
                         <span>NoteBook LM</span>
                     </SidebarMenuButton>
-                </Link>
+                </a>
               </SidebarMenuItem>
                <SidebarMenuItem>
                 <Link href="/dashboard/notifications">
