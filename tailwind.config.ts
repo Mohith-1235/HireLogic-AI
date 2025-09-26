@@ -17,9 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        headline: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        code: ['monospace'],
+        body: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        headline: ['var(--font-lexend)', 'system-ui', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

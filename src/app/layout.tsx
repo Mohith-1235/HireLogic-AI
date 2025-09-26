@@ -3,6 +3,18 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from "@/components/ui/toaster"
 import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { Inter, Lexend } from 'next/font/google';
+import { cn } from '@/lib/utils';
+
+const fontInter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const fontLexend = Lexend({
+  subsets: ['latin'],
+  variable: '--font-lexend',
+});
 
 export const metadata: Metadata = {
   title: 'HireLogic-AI',
@@ -20,7 +32,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="font-body antialiased">
+      <body className={cn("font-body antialiased", fontInter.variable, fontLexend.variable)}>
         <FirebaseClientProvider>
           <ThemeProvider
             defaultTheme="system"

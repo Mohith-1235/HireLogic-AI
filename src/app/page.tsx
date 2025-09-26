@@ -71,15 +71,15 @@ export default function Home() {
             alt={heroImage.description}
             data-ai-hint={heroImage.imageHint}
             fill
-            className="object-cover -z-10 opacity-20"
+            className="object-cover -z-10 opacity-10"
            />}
-           <div className="absolute inset-0 bg-[radial-gradient(hsl(var(--muted)),transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
           <div className="container relative flex max-w-[64rem] flex-col items-center gap-6 text-center">
             <h1 className="font-headline text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
-              {content.headline}
+              {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.headline}
             </h1>
             <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8 animate-fade-in-up [animation-delay:200ms]">
-              {content.subtext}
+              {loading ? <span className="text-muted-foreground/20">Loading...</span> : content.subtext}
             </p>
             <div className="flex gap-4 animate-fade-in-up [animation-delay:400ms]">
               <LoginModal triggerButton={<Button size="lg">Get Started</Button>} />
@@ -103,7 +103,7 @@ export default function Home() {
             <div className="mx-auto grid justify-center gap-6 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
               {aboutItems.map((item, index) => (
                 <div key={item.title} className="animate-fade-in-up" style={{animationDelay: `${index * 150}ms`}}>
-                    <Card className="bg-background overflow-hidden h-full">
+                    <Card className="bg-background overflow-hidden h-full transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
                     {item.image && (
                         <div className="relative h-48 w-full">
                             <Image
@@ -116,7 +116,7 @@ export default function Home() {
                         </div>
                     )}
                     <CardHeader>
-                        <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
+                        <CardTitle className="text-xl font-bold font-headline">{item.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-muted-foreground">{item.description}</p>
