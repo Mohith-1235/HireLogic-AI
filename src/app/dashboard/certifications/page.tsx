@@ -5,7 +5,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 
 export default function CertificationsPage() {
-  const certificateImage = PlaceHolderImages.find(p => p.id === 'react-certificate-static');
+  const certificateImage = PlaceHolderImages.find(p => p.id === 'google-ux-certificate');
 
   return (
     <>
@@ -16,7 +16,16 @@ export default function CertificationsPage() {
             </div>
         </div>
         <div className="flex flex-col justify-center items-center py-8">
-           
+           {certificateImage && (
+            <Image
+                src={certificateImage.imageUrl}
+                alt={certificateImage.description}
+                data-ai-hint={certificateImage.imageHint}
+                width={800}
+                height={600}
+                className="rounded-lg shadow-lg"
+            />
+           )}
         </div>
     </>
   );
