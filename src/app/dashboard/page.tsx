@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,32 +11,40 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { JobApplicationForm } from '@/components/job-application-form';
-
-const initialJobListings = [
-    { id: 1, title: 'Frontend Developer', company: 'Innovate Inc.', location: 'Remote', saved: false, applied: true, postedAt: '2 hours ago' },
-    { id: 2, title: 'Backend Engineer', company: 'Data Systems', location: 'New York, NY', saved: true, applied: false, postedAt: '1 day ago' },
-    { id: 3, title: 'AI/ML Specialist', company: 'Future AI', location: 'San Francisco, CA', saved: false, applied: false, postedAt: '3 days ago' },
-    { id: 4, title: 'DevOps Engineer', company: 'CloudWorks', location: 'Austin, TX', saved: false, applied: false, postedAt: '5 days ago' },
-    { id: 5, title: 'UI/UX Designer', company: 'Creative Solutions', location: 'Remote', saved: true, applied: true, postedAt: '1 week ago' },
-];
-
-export type JobListing = typeof initialJobListings[0];
+import { getAllJobs, updateJob } from '@/lib/job-store';
+import type { JobListing } from '@/lib/job-store';
 
 export default function DashboardPage() {
-    const [jobListings, setJobListings] = useState(initialJobListings);
+    const [jobListings, setJobListings] = useState<JobListing[]>([]);
     const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
     const { toast } = useToast();
 
+    useEffect(() => {
+        setJobListings(getAllJobs());
+    }, []);
+
     const handleToggleSave = (id: number) => {
-        setJobListings(jobListings.map(job => 
-            job.id === id ? { ...job, saved: !job.saved } : job
-        ));
+        const updatedJobs = jobListings.map(job => {
+            if (job.id === id) {
+                const newJob = { ...job, saved: !job.saved };
+                updateJob(newJob);
+                return newJob;
+            }
+            return job;
+        });
+        setJobListings(updatedJobs);
     };
 
     const handleApplySuccess = (id: number) => {
-        setJobListings(jobListings.map(job =>
-            job.id === id ? { ...job, applied: true } : job
-        ));
+        const updatedJobs = jobListings.map(job => {
+            if (job.id === id) {
+                const newJob = { ...job, applied: true, status: 'Under Review' as const };
+                updateJob(newJob);
+                return newJob;
+            }
+            return job;
+        });
+        setJobListings(updatedJobs);
         setSelectedJob(null); // Close the dialog
         toast({
             title: 'Application Sent!',

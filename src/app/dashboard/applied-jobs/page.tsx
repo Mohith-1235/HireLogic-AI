@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -9,34 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Separator } from '@/components/ui/separator';
 import { FileText, Link as LinkIcon } from 'lucide-react';
 import Link from 'next/link';
-
-
-const appliedJobs = [
-    { 
-        id: 1, 
-        title: 'Frontend Developer', 
-        company: 'Innovate Inc.', 
-        location: 'Remote', 
-        status: 'Interviewing', 
-        progress: 75,
-        appliedAt: '2 weeks ago',
-        description: 'Innovate Inc. is seeking a passionate Frontend Developer to build beautiful and performant user interfaces for our next-generation products. You will work with React, Next.js, and Tailwind CSS.',
-        documents: [ { name: 'Resume.pdf', url: '#' } ],
-        nextStep: 'Second Round Interview: Technical Assessment on March 15th, 2024'
-    },
-    { 
-        id: 5, 
-        title: 'UI/UX Designer', 
-        company: 'Creative Solutions', 
-        location: 'Remote', 
-        status: 'Under Review', 
-        progress: 25,
-        appliedAt: '1 week ago',
-        description: 'Creative Solutions is looking for a talented UI/UX Designer to create intuitive and engaging experiences for our clients. You will be responsible for the entire design process from concept to final hand-off.',
-        documents: [ { name: 'Resume.pdf', url: '#' }, { name: 'Portfolio.pdf', url: '#' } ],
-        nextStep: 'The hiring team is currently reviewing your application.'
-    },
-];
+import { getAppliedJobs, JobListing } from '@/lib/job-store';
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -50,6 +24,12 @@ const getStatusColor = (status: string) => {
 }
 
 export default function AppliedJobsPage() {
+    const [appliedJobs, setAppliedJobs] = useState<JobListing[]>([]);
+
+    useEffect(() => {
+        setAppliedJobs(getAppliedJobs());
+    }, []);
+
   return (
     <>
        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -58,67 +38,75 @@ export default function AppliedJobsPage() {
                 <p className="text-muted-foreground">Track the status of your applications.</p>
             </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {appliedJobs.map((job) => (
-                <Card key={job.id} className="transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-                    <CardHeader>
-                        <CardTitle>{job.title}</CardTitle>
-                        <CardDescription>{job.company} - {job.location}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <span className="text-sm text-muted-foreground">Status</span>
-                            <Badge className={getStatusColor(job.status)}>{job.status}</Badge>
-                        </div>
-                        <div>
-                            <Progress value={job.progress} className="h-2" />
-                            <p className="text-xs text-muted-foreground mt-1">{job.progress}% complete</p>
-                        </div>
-                        <p className="text-sm text-muted-foreground">Applied {job.appliedAt}</p>
-                    </CardContent>
-                    <CardFooter>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="outline" className="w-full">View Application</Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-lg">
-                                <DialogHeader>
-                                    <DialogTitle className='text-2xl'>{job.title}</DialogTitle>
-                                    <DialogDescription>
-                                        {job.company} - {job.location}
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <Separator />
-                                <div className='space-y-4'>
-                                    <div>
-                                        <h3 className='font-semibold'>Job Description</h3>
-                                        <p className='text-sm text-muted-foreground'>{job.description}</p>
-                                    </div>
-                                    <div>
-                                        <h3 className='font-semibold'>Application Status</h3>
-                                        <p className='text-sm text-muted-foreground'>{job.status} ({job.progress}% complete)</p>
-                                    </div>
-                                     <div>
-                                        <h3 className='font-semibold'>Next Step</h3>
-                                        <p className='text-sm text-muted-foreground'>{job.nextStep}</p>
-                                    </div>
-                                    <div>
-                                        <h3 className='font-semibold'>Submitted Documents</h3>
-                                        <div className='flex flex-col gap-2 mt-2'>
-                                            {job.documents.map(doc => (
-                                                <Link key={doc.name} href={doc.url} className='text-sm text-primary hover:underline flex items-center gap-2'>
-                                                    <FileText size={16} /> {doc.name}
-                                                </Link>
-                                            ))}
+        {appliedJobs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {appliedJobs.map((job) => (
+                    <Card key={job.id} className="transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
+                        <CardHeader>
+                            <CardTitle>{job.title}</CardTitle>
+                            <CardDescription>{job.company} - {job.location}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm text-muted-foreground">Status</span>
+                                <Badge className={getStatusColor(job.status || 'Under Review')}>{job.status || 'Under Review'}</Badge>
+                            </div>
+                            <div>
+                                <Progress value={job.progress || 25} className="h-2" />
+                                <p className="text-xs text-muted-foreground mt-1">{job.progress || 25}% complete</p>
+                            </div>
+                            <p className="text-sm text-muted-foreground">Applied {job.appliedAt}</p>
+                        </CardContent>
+                        <CardFooter>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline" className="w-full">View Application</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-lg">
+                                    <DialogHeader>
+                                        <DialogTitle className='text-2xl'>{job.title}</DialogTitle>
+                                        <DialogDescription>
+                                            {job.company} - {job.location}
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <Separator />
+                                    <div className='space-y-4'>
+                                        <div>
+                                            <h3 className='font-semibold'>Job Description</h3>
+                                            <p className='text-sm text-muted-foreground'>{job.description}</p>
+                                        </div>
+                                        <div>
+                                            <h3 className='font-semibold'>Application Status</h3>
+                                            <p className='text-sm text-muted-foreground'>{job.status || 'Under Review'} ({job.progress || 25}% complete)</p>
+                                        </div>
+                                        <div>
+                                            <h3 className='font-semibold'>Next Step</h3>
+                                            <p className='text-sm text-muted-foreground'>{job.nextStep || 'The hiring team is currently reviewing your application.'}</p>
+                                        </div>
+                                        <div>
+                                            <h3 className='font-semibold'>Submitted Documents</h3>
+                                            <div className='flex flex-col gap-2 mt-2'>
+                                                {job.documents?.map(doc => (
+                                                    <Link key={doc.name} href={doc.url} className='text-sm text-primary hover:underline flex items-center gap-2'>
+                                                        <FileText size={16} /> {doc.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                    </CardFooter>
-                </Card>
-            ))}
-        </div>
+                                </DialogContent>
+                            </Dialog>
+                        </CardFooter>
+                    </Card>
+                ))}
+            </div>
+        ) : (
+            <Card>
+                <CardContent className="p-6 text-center">
+                    <p className="text-muted-foreground">You haven't applied for any jobs yet.</p>
+                </CardContent>
+            </Card>
+        )}
     </>
   );
 }

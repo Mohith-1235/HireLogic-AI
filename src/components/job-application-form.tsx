@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/firebase";
 import { useEffect, useState } from "react";
-import type { JobListing } from "@/app/dashboard/page";
+import type { JobListing } from "@/lib/job-store";
 
 const applicationSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -116,4 +116,3 @@ export function JobApplicationForm({ job, onApplySuccess }: JobApplicationFormPr
         </Form>
     );
 }
-
