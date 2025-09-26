@@ -16,19 +16,7 @@ export default function CertificationsPage() {
             </div>
         </div>
         <div className="flex flex-col justify-center items-center py-8">
-           {certificateImage && (
-            <>
-              <Image
-                src={certificateImage.imageUrl}
-                alt={certificateImage.description}
-                data-ai-hint={certificateImage.imageHint}
-                width={800}
-                height={600}
-                className="rounded-lg shadow-lg"
-              />
-              <p className="text-center text-lg font-semibold mt-4">React course completion</p>
-            </>
-            )}
+           
         </div>
     </>
   );
