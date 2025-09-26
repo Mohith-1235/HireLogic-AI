@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
 import { generateQuiz, GenerateQuizOutput, GenerateQuizInput } from '@/ai/flows/generate-quiz';
-import { Loader2, BrainCircuit } from 'lucide-react';
+import { Loader2, BrainCircuit, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -95,6 +95,10 @@ export function AiQuiz() {
         setSubTopic('');
         setQuestions([]);
         setUserAnswers([]);
+    };
+
+    const handleGoBack = () => {
+        handleRestart();
     };
 
     const renderQuizContent = () => {
@@ -223,7 +227,10 @@ export function AiQuiz() {
                                 ))}
                            </ul>
                         </CardContent>
-                        <CardFooter>
+                        <CardFooter className="gap-2">
+                            <Button onClick={handleGoBack} className="w-full" variant="outline">
+                                <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
+                            </Button>
                             <Button onClick={handleRestart} className="w-full">
                                 Take Another Quiz
                             </Button>
