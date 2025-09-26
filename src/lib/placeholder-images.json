@@ -47,6 +47,12 @@
       "description": "Google UX Design Professional Certificate for G.Vignesh.",
       "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762281861783_image.jpeg",
       "imageHint": "google certificate"
+    },
+    {
+      "id": "react-certificate-g-vignesh",
+      "description": "React - The Complete Guide Completion Certificate for G. VIGNESH.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1763110291931_image.jpeg",
+      "imageHint": "react certificate"
     }
   ]
 }

@@ -1,12 +1,10 @@
 
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 
-const completedCertifications: any[] = [];
+const certificate = PlaceHolderImages.find(p => p.id === 'react-certificate-g-vignesh');
 
 export default function CertificationsPage() {
   return (
@@ -16,24 +14,20 @@ export default function CertificationsPage() {
                 <h1 className="text-3xl font-bold tracking-tight">certification you completed</h1>
                 <p className="text-muted-foreground">Manage your external skill certifications.</p>
             </div>
-            <Button>Add New Certification</Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {completedCertifications.map((cert) => (
-                <Card key={cert.id} className="overflow-hidden">
-                    {cert.image && (
-                        <div className="relative aspect-video w-full">
-                            <Image
-                                src={cert.image.imageUrl}
-                                alt={cert.image.description}
-                                data-ai-hint={cert.image.imageHint}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                    )}
-                </Card>
-            ))}
+        <div className="flex justify-center items-center py-8">
+            {certificate && (
+                <div className="relative w-full max-w-2xl">
+                    <Image
+                        src={certificate.imageUrl}
+                        alt={certificate.description}
+                        data-ai-hint={certificate.imageHint}
+                        width={1000}
+                        height={750}
+                        className="object-contain rounded-lg shadow-lg"
+                    />
+                </div>
+            )}
         </div>
     </>
   );
