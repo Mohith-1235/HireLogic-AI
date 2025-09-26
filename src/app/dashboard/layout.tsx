@@ -3,7 +3,7 @@
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield, ShieldCheck } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield, ShieldCheck, BookText } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
@@ -160,6 +160,14 @@ export default function DashboardLayout({
                     <GraduationCap />
                     <span>Free certification</span>
                   </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/notebook-lm">
+                    <SidebarMenuButton tooltip="NoteBook LM" isActive={pathname === '/dashboard/notebook-lm'}>
+                        <BookText />
+                        <span>NoteBook LM</span>
+                    </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
                <SidebarMenuItem>
