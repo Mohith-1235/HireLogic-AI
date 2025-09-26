@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -33,7 +34,7 @@ type LogEntry = {
 
 const initialDocuments: DocumentState[] = [
   { id: 'tenth', title: '10th Marksheet', mandatory: true, status: 'Not Uploaded' },
-  { id: 'twelfth', title: '12th Marksheet', mandatory: true, status: 'Not Uploaded' },
+  { id: 'twelfth', title: '12th/Diploma certificate', mandatory: true, status: 'Not Uploaded' },
   { id: 'degree', title: 'Degree/B.Tech Certificate', mandatory: true, status: 'Not Uploaded' },
   { id: 'mtech', title: 'M.Tech Certificate', mandatory: false, status: 'Not Uploaded' },
   { id: 'ms', title: 'MS Certificate', mandatory: false, status: 'Not Uploaded' },
