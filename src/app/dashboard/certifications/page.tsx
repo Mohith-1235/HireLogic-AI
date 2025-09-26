@@ -1,6 +1,7 @@
+
 'use client';
 
-import { Award, ExternalLink } from 'lucide-react';
+import { Award, ExternalLink, Download } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -45,12 +46,16 @@ export default function CertificationsPage() {
                     <CardContent className="flex-grow">
                         {/* Can add more details here if needed */}
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="flex gap-2">
                         <Button asChild variant="outline" className="w-full">
                             <a href={cert.url} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="mr-2 h-4 w-4" />
                                 View Credential
                             </a>
+                        </Button>
+                        <Button variant="secondary" className="w-full" onClick={() => alert(`Downloading ${cert.title}...`)}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Download
                         </Button>
                     </CardFooter>
                 </Card>
