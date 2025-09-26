@@ -1,9 +1,15 @@
 
 'use client';
 
-import { Award, ExternalLink, Download } from 'lucide-react';
+import { Award, ExternalLink, Download, Loader2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { generateCertificateImage } from '@/ai/flows/generate-certificate-image';
+import { useUser } from '@/firebase';
+import { useToast } from '@/hooks/use-toast';
+import { saveAs } from 'file-saver';
+
 
 const certifications = [
     {
@@ -27,18 +33,43 @@ const certifications = [
 ];
 
 export default function CertificationsPage() {
+  const { user } = useUser();
+  const { toast } = useToast();
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
-  const handleDownload = (title: string) => {
-    const fileContent = `This is a dummy certificate file for: ${title}`;
-    const blob = new Blob([fileContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${title.replace(/\s+/g, '_')}_certificate.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+  const handleDownload = async (certId: number, title: string, issuer: string) => {
+    if (!user?.displayName) {
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Could not find user name to generate certificate.'
+        });
+        return;
+    }
+    setDownloadingId(certId);
+    try {
+        const result = await generateCertificateImage({
+            title: title,
+            issuer: issuer,
+            userName: user.displayName,
+        });
+
+        if (result.imageDataUri) {
+            saveAs(result.imageDataUri, `${title.replace(/\s+/g, '_')}_certificate.png`);
+        } else {
+            throw new Error('Image generation failed.');
+        }
+
+    } catch (error) {
+        console.error("Failed to generate certificate image:", error);
+        toast({
+            variant: 'destructive',
+            title: 'Download Failed',
+            description: 'Could not generate the certificate image. Please try again later.'
+        });
+    } finally {
+        setDownloadingId(null);
+    }
   };
 
   return (
@@ -67,9 +98,18 @@ export default function CertificationsPage() {
                                 View Credential
                             </a>
                         </Button>
-                        <Button variant="secondary" className="w-full" onClick={() => handleDownload(cert.title)}>
-                            <Download className="mr-2 h-4 w-4" />
-                            Download
+                        <Button 
+                            variant="secondary" 
+                            className="w-full" 
+                            onClick={() => handleDownload(cert.id, cert.title, cert.issuer)}
+                            disabled={downloadingId === cert.id}
+                        >
+                            {downloadingId === cert.id ? (
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                                <Download className="mr-2 h-4 w-4" />
+                            )}
+                            {downloadingId === cert.id ? 'Generating...' : 'Download'}
                         </Button>
                     </CardFooter>
                 </Card>
