@@ -6,24 +6,7 @@ import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 
-const completedCertifications = [
-  {
-    id: 1,
-    title: 'Google UX Design Professional Certificate',
-    issuer: 'Google',
-    date: '2023-10-26',
-    credentialUrl: '#',
-    image: PlaceHolderImages.find(p => p.id === 'google-ux-certificate'),
-  },
-  {
-    id: 2,
-    title: 'React - The Complete Guide',
-    issuer: 'Udemy',
-    date: '2024-01-15',
-    credentialUrl: '#',
-    image: PlaceHolderImages.find(p => p.id === 'react-certificate-static'),
-  }
-];
+const completedCertifications: any[] = [];
 
 export default function CertificationsPage() {
   return (
