@@ -221,3 +221,5 @@ export function LoginModal({ afterOpen, isMobile = false, triggerButton }: Login
     </Dialog>
   );
 }
+
+    
