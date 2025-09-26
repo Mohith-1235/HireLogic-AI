@@ -3,7 +3,7 @@
     {
       "id": "hero-background",
       "description": "A futuristic abstract background for the hero section.",
-      "imageUrl": "https://images.unsplash.com/photo-1639074064849-395cddbeec2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzU4ODAyNzc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "futuristic abstract"
     },
     {
@@ -53,6 +53,12 @@
       "description": "React - The Complete Guide Completion Certificate for G. VIGNESH.",
       "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1763110291931_image.jpeg",
       "imageHint": "react certificate"
+    },
+    {
+      "id": "dashboard-background",
+      "description": "A unique, abstract background for the dashboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "abstract landscape"
     }
   ]
 }
