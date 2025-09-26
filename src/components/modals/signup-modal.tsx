@@ -109,11 +109,19 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
   };
 
   const handleError = (error: any) => {
-    toast({
-      variant: "destructive",
-      title: "Uh oh! Something went wrong.",
-      description: error.message || 'An unknown error occurred.',
-    });
+    if (error.code === 'auth/email-already-in-use') {
+        toast({
+            variant: "destructive",
+            title: "Sign Up Failed",
+            description: "An account with this email already exists. Please log in or use a different email.",
+        });
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: error.message || 'An unknown error occurred.',
+        });
+    }
   };
 
   const handleGoogleSignIn = () => {

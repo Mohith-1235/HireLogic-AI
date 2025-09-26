@@ -1,4 +1,5 @@
-import { generateInitialHomepageContent } from "@/ai/flows/generate-initial-homepage-content";
+
+import { generateInitialHomepageContent, GenerateInitialHomepageContentOutput } from "@/ai/flows/generate-initial-homepage-content";
 import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -7,11 +8,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 
+const defaultContent: GenerateInitialHomepageContentOutput = {
+  headline: "Revolutionize Your Hiring with AI",
+  subtext: "Streamline candidate screening and matching to find the perfect fit, faster.",
+  aboutUsMission: "Our mission is to make hiring more efficient and equitable by leveraging the power of artificial intelligence.",
+  aboutUsScreening: "Our AI-driven screening process analyzes candidate profiles to identify top talent with unparalleled accuracy.",
+  aboutUsHiring: "We are committed to building a trusted hiring ecosystem that benefits both employers and candidates.",
+};
+
 export default async function Home() {
-  const content = await generateInitialHomepageContent({
-    prompt:
-      "HireLogic-AI is a recruiting startup that uses AI for candidate screening and matching to streamline the hiring process.",
-  });
+  let content: GenerateInitialHomepageContentOutput;
+  try {
+    content = await generateInitialHomepageContent({
+      prompt:
+        "HireLogic-AI is a recruiting startup that uses AI for candidate screening and matching to streamline the hiring process.",
+    });
+  } catch (error) {
+    console.error("Failed to generate homepage content, using default:", error);
+    content = defaultContent;
+  }
+
 
   const heroImage = PlaceHolderImages.find(p => p.id === "hero-background");
   const missionImage = PlaceHolderImages.find(p => p.id === "about-mission");
