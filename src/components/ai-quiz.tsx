@@ -157,14 +157,13 @@ export function AiQuiz() {
                                     value={mode}
                                     onValueChange={(value: QuizMode) => setMode(value)}
                                     className="flex items-center space-x-4 pt-2"
-                                    disabled={quizState === 'loading'}
                                 >
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="Theory" id="mode-theory" />
+                                        <RadioGroupItem value="Theory" id="mode-theory" disabled={quizState === 'loading'} />
                                         <Label htmlFor="mode-theory">Theory</Label>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="Practical" id="mode-practical" />
+                                        <RadioGroupItem value="Practical" id="mode-practical" disabled={quizState === 'loading'} />
                                         <Label htmlFor="mode-practical">Practical</Label>
                                     </div>
                                 </RadioGroup>
