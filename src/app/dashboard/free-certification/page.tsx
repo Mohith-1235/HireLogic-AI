@@ -22,7 +22,7 @@ const freeCertifications = [
         provider: 'CyberSec Institute',
         description: 'Learn ethical hacking and penetration testing techniques to become a cybersecurity expert.',
         tags: ['Cybersecurity', 'Ethical Hacking', 'Penetration Testing'],
-        url: '#',
+        url: 'https://www.udemy.com/course/cybersecurity-mastery-hacking-techniques/?couponCode=DISCUDEMY',
     }
 ];
 
