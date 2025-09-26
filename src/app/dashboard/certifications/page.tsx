@@ -27,6 +27,20 @@ const certifications = [
 ];
 
 export default function CertificationsPage() {
+
+  const handleDownload = (title: string) => {
+    const fileContent = `This is a dummy certificate file for: ${title}`;
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/\s+/g, '_')}_certificate.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -53,7 +67,7 @@ export default function CertificationsPage() {
                                 View Credential
                             </a>
                         </Button>
-                        <Button variant="secondary" className="w-full" onClick={() => alert(`Downloading ${cert.title}...`)}>
+                        <Button variant="secondary" className="w-full" onClick={() => handleDownload(cert.title)}>
                             <Download className="mr-2 h-4 w-4" />
                             Download
                         </Button>
