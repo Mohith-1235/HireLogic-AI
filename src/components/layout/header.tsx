@@ -26,6 +26,7 @@ export function Header() {
   
   if (user) {
     navItems.push({ name: 'Dashboard', href: '/dashboard' });
+    navItems.push({ name: 'Certifications', href: '/dashboard/certifications' });
   }
 
   const UserMenu = () => {
