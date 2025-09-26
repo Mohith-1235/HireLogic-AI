@@ -22,6 +22,10 @@ async function socialSignIn(provider: GoogleAuthProvider | OAuthProvider): Promi
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
+    if (!user.email) {
+      throw new Error("User's email is not available from the authentication provider.");
+    }
+
     // After sign-in, check if user document exists to determine if it's a new sign-up
     const userDocRef = doc(firestore, 'users', user.uid);
     const userDoc = await getDoc(userDocRef);
