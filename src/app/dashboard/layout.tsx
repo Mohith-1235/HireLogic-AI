@@ -116,9 +116,9 @@ export default function DashboardLayout({
             </SidebarMenuItem>
             <SidebarMenuItem>
                 <Link href="/dashboard/ai-quiz">
-                  <SidebarMenuButton tooltip="AI Quiz" isActive={pathname === '/dashboard/ai-quiz'}>
-                    <FileQuestion />
-                    <span>AI Quiz</span>
+                  <SidebarMenuButton tooltip="AI Trainee" isActive={pathname === '/dashboard/ai-quiz'}>
+                    <Bot />
+                    <span>AI Trainee</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
