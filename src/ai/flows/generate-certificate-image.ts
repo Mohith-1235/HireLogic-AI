@@ -37,8 +37,8 @@ const generateCertificateImageFlow = ai.defineFlow(
   },
   async (input) => {
     const certificateTemplate = PlaceHolderImages.find(p => p.id === 'certificate-template');
-    if (!certificateTemplate) {
-        throw new Error('Certificate template image not found.');
+    if (!certificateTemplate || !certificateTemplate.imageUrl) {
+        throw new Error('Certificate template image not found or URL is missing.');
     }
 
     const { media } = await ai.generate({

@@ -69,12 +69,12 @@ export default function CertificationsPage() {
                 throw new Error('Image generation failed.');
             }
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to download or generate certificate image:", error);
         toast({
             variant: 'destructive',
             title: 'Download Failed',
-            description: 'Could not produce the certificate image. Please try again later.'
+            description: error.message || 'Could not produce the certificate image. Please try again later.'
         });
     } finally {
         setDownloadingId(null);
