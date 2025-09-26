@@ -8,16 +8,19 @@ import { Input } from './ui/input';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
-import { generateQuiz, GenerateQuizOutput } from '@/ai/flows/generate-quiz';
+import { generateQuiz, GenerateQuizOutput, GenerateQuizInput } from '@/ai/flows/generate-quiz';
 import { Loader2, BrainCircuit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 type QuizState = 'idle' | 'loading' | 'active' | 'finished';
 type QuizQuestion = GenerateQuizOutput['questions'][0];
+type QuizDifficulty = GenerateQuizInput['difficulty'];
 
 export function AiQuiz() {
     const [topic, setTopic] = useState('React');
+    const [difficulty, setDifficulty] = useState<QuizDifficulty>('Medium');
     const [quizState, setQuizState] = useState<QuizState>('idle');
     const [questions, setQuestions] = useState<QuizQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -42,7 +45,7 @@ export function AiQuiz() {
         setScore(0);
         setCurrentQuestionIndex(0);
 
-        const result = await generateQuiz({ topic });
+        const result = await generateQuiz({ topic, difficulty });
 
         if (result && result.questions) {
             setQuestions(result.questions);
@@ -98,16 +101,37 @@ export function AiQuiz() {
                 return (
                     <form onSubmit={handleStartQuiz}>
                         <CardHeader>
-                            <CardTitle>Select a Topic</CardTitle>
-                            <CardDescription>Enter any topic you want to be quizzed on. For example: "React Hooks", "JavaScript Promises", or "CSS Flexbox".</CardDescription>
+                            <CardTitle>Select a Topic and Difficulty</CardTitle>
+                            <CardDescription>Enter any topic you want to be quizzed on and choose a difficulty level.</CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <Input
-                                placeholder="Enter a topic..."
-                                value={topic}
-                                onChange={(e) => setTopic(e.target.value)}
-                                disabled={quizState === 'loading'}
-                            />
+                        <CardContent className="space-y-4">
+                            <div>
+                                <Label htmlFor="topic">Topic</Label>
+                                <Input
+                                    id="topic"
+                                    placeholder="e.g., 'React Hooks'"
+                                    value={topic}
+                                    onChange={(e) => setTopic(e.target.value)}
+                                    disabled={quizState === 'loading'}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="difficulty">Difficulty</Label>
+                                <Select
+                                    value={difficulty}
+                                    onValueChange={(value: QuizDifficulty) => setDifficulty(value)}
+                                    disabled={quizState === 'loading'}
+                                >
+                                    <SelectTrigger id="difficulty">
+                                        <SelectValue placeholder="Select difficulty" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Starting">Starting</SelectItem>
+                                        <SelectItem value="Medium">Medium</SelectItem>
+                                        <SelectItem value="Hard">Hard</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </CardContent>
                         <CardFooter>
                             <Button type="submit" className="w-full" disabled={quizState === 'loading'}>
@@ -132,7 +156,10 @@ export function AiQuiz() {
                 return (
                     <>
                         <CardHeader>
-                            <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
+                            <div className='flex justify-between items-center'>
+                                <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
+                                <Badge variant="outline">{difficulty}</Badge>
+                            </div>
                             <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="mt-2" />
                             <CardDescription className="pt-4 text-lg font-semibold text-foreground">{question.question}</CardDescription>
                         </CardHeader>

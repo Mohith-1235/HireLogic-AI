@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview A flow to generate a multiple-choice quiz on a given topic.
+ * @fileOverview A flow to generate a multiple-choice quiz on a given topic and difficulty.
  *
  * - generateQuiz - A function that handles the quiz generation process.
  * - GenerateQuizInput - The input type for the generateQuiz function.
@@ -14,6 +14,7 @@ import {z} from 'genkit';
 
 const GenerateQuizInputSchema = z.object({
   topic: z.string().describe('The topic for the quiz.'),
+  difficulty: z.enum(['Starting', 'Medium', 'Hard']).describe('The difficulty level of the quiz.'),
 });
 export type GenerateQuizInput = z.infer<typeof GenerateQuizInputSchema>;
 
@@ -36,9 +37,10 @@ const prompt = ai.definePrompt({
   name: 'generateQuizPrompt',
   input: {schema: GenerateQuizInputSchema},
   output: {schema: GenerateQuizOutputSchema},
-  prompt: `You are an expert quiz master. Generate a 5-question multiple-choice quiz about the given topic. Each question should have 4 options, and you must provide the correct answer.
+  prompt: `You are an expert quiz master. Generate a 5-question multiple-choice quiz about the given topic with the specified difficulty. Each question should have 4 options, and you must provide the correct answer.
 
 Topic: {{{topic}}}
+Difficulty: {{{difficulty}}}
 `,
 });
 
