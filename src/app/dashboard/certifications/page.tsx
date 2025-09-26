@@ -4,6 +4,8 @@
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function CertificationsPage() {
   const certificateImage = PlaceHolderImages.find(p => p.id === 'google-ux-certificate');
@@ -17,20 +19,41 @@ export default function CertificationsPage() {
                 <p className="text-muted-foreground">Manage your external skill certifications.</p>
             </div>
         </div>
-        <div className="flex flex-col justify-center items-center py-8">
-            {certificateImage && (
-                <Link href={certificateUrl} target="_blank" rel="noopener noreferrer">
-                    <Image
-                        src={certificateImage.imageUrl}
-                        alt={certificateImage.description}
-                        data-ai-hint={certificateImage.imageHint}
-                        width={800}
-                        height={600}
-                        className="rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
-                    />
-                </Link>
-            )}
-        </div>
+        <Tabs defaultValue="completed" className="w-full">
+            <TabsList>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+                <TabsTrigger value="in-progress">In Progress</TabsTrigger>
+            </TabsList>
+            <TabsContent value="completed">
+                <div className="flex flex-col justify-center items-center py-8">
+                    {certificateImage && (
+                        <Card>
+                             <CardHeader>
+                                <CardTitle>Google UX Design Professional Certificate</CardTitle>
+                                <CardDescription>Issued by Google</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Link href={certificateUrl} target="_blank" rel="noopener noreferrer">
+                                    <Image
+                                        src={certificateImage.imageUrl}
+                                        alt={certificateImage.description}
+                                        data-ai-hint={certificateImage.imageHint}
+                                        width={800}
+                                        height={600}
+                                        className="rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
+                                    />
+                                </Link>
+                            </CardContent>
+                        </Card>
+                    )}
+                </div>
+            </TabsContent>
+            <TabsContent value="in-progress">
+                <div className="flex items-center justify-center h-48 border-2 border-dashed rounded-lg">
+                    <p className="text-muted-foreground">No certifications in progress.</p>
+                </div>
+            </TabsContent>
+        </Tabs>
     </>
   );
 }
