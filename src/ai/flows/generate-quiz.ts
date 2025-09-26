@@ -13,7 +13,8 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateQuizInputSchema = z.object({
-  topic: z.string().describe('The topic for the quiz.'),
+  topic: z.string().describe('The main topic for the quiz.'),
+  subTopic: z.string().optional().describe('An optional, more specific sub-topic for the quiz.'),
   difficulty: z.enum(['Starting', 'Medium', 'Hard']).describe('The difficulty level of the quiz.'),
 });
 export type GenerateQuizInput = z.infer<typeof GenerateQuizInputSchema>;
@@ -37,9 +38,12 @@ const prompt = ai.definePrompt({
   name: 'generateQuizPrompt',
   input: {schema: GenerateQuizInputSchema},
   output: {schema: GenerateQuizOutputSchema},
-  prompt: `You are an expert quiz master. Generate a 5-question multiple-choice quiz about the given topic with the specified difficulty. Each question should have 4 options, and you must provide the correct answer.
+  prompt: `You are an expert quiz master. Generate a 5-question multiple-choice quiz about the given topic with the specified difficulty. If a sub-topic is provided, focus the quiz on that specific area. Each question should have 4 options, and you must provide the correct answer.
 
 Topic: {{{topic}}}
+{{#if subTopic}}
+Sub-topic: {{{subTopic}}}
+{{/if}}
 Difficulty: {{{difficulty}}}
 `,
 });

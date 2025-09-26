@@ -20,6 +20,7 @@ type QuizDifficulty = GenerateQuizInput['difficulty'];
 
 export function AiQuiz() {
     const [topic, setTopic] = useState('React');
+    const [subTopic, setSubTopic] = useState('');
     const [difficulty, setDifficulty] = useState<QuizDifficulty>('Medium');
     const [quizState, setQuizState] = useState<QuizState>('idle');
     const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -45,7 +46,7 @@ export function AiQuiz() {
         setScore(0);
         setCurrentQuestionIndex(0);
 
-        const result = await generateQuiz({ topic, difficulty });
+        const result = await generateQuiz({ topic, subTopic, difficulty });
 
         if (result && result.questions) {
             setQuestions(result.questions);
@@ -90,6 +91,7 @@ export function AiQuiz() {
     const handleRestart = () => {
         setQuizState('idle');
         setTopic('React');
+        setSubTopic('');
         setQuestions([]);
         setUserAnswers([]);
     };
@@ -101,17 +103,27 @@ export function AiQuiz() {
                 return (
                     <form onSubmit={handleStartQuiz}>
                         <CardHeader>
-                            <CardTitle>Select a Topic and Difficulty</CardTitle>
-                            <CardDescription>Enter any topic you want to be quizzed on and choose a difficulty level.</CardDescription>
+                            <CardTitle>Create Your Quiz</CardTitle>
+                            <CardDescription>Enter a topic and difficulty to start a new quiz.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div>
                                 <Label htmlFor="topic">Topic</Label>
                                 <Input
                                     id="topic"
-                                    placeholder="e.g., 'React Hooks'"
+                                    placeholder="e.g., 'JavaScript'"
                                     value={topic}
                                     onChange={(e) => setTopic(e.target.value)}
+                                    disabled={quizState === 'loading'}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="subtopic">Sub-topic (Optional)</Label>
+                                <Input
+                                    id="subtopic"
+                                    placeholder="e.g., 'ES6 Promises'"
+                                    value={subTopic}
+                                    onChange={(e) => setSubTopic(e.target.value)}
                                     disabled={quizState === 'loading'}
                                 />
                             </div>
