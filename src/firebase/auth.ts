@@ -13,6 +13,7 @@ import {
 } from 'firebase/auth';
 import { initializeFirebase } from '.';
 import { createUserDocument } from './firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 // --- Social Sign-Ins (Popup based) ---
 async function socialSignIn(provider: GoogleAuthProvider | OAuthProvider): Promise<UserCredential> {
@@ -21,12 +22,21 @@ async function socialSignIn(provider: GoogleAuthProvider | OAuthProvider): Promi
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // After sign-in, ensure user document exists in Firestore
-    const userData = {
+    // After sign-in, check if user document exists to determine if it's a new sign-up
+    const userDocRef = doc(firestore, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    const userData: {name: string | null; email: string | null; photoURL: string | null; verified_academics?: boolean} = {
       name: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
     };
+
+    if (!userDoc.exists()) {
+      // This is a new user, set verified_academics to false
+      userData.verified_academics = false;
+    }
+
     // This will create or merge the user document.
     createUserDocument(firestore, user.uid, userData);
 
