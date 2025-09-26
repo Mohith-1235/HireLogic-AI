@@ -3,7 +3,7 @@
 'use client';
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap } from 'lucide-react';
+import { Briefcase, Bot, Upload, User, Bell, Award, Settings, GraduationCap, Shield } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useUser } from '@/firebase';
@@ -108,7 +108,7 @@ export default function DashboardLayout({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/applied-jobs">
-                  <SidebarMenuButton tooltip="Applied Jobs Notifications" isActive={pathname === '/dashboard/applied-jobs'}>
+                  <SidebarMenuButton tooltip="Applied Jobs" isActive={pathname === '/dashboard/applied-jobs'}>
                     <Bell />
                     <span>Applied Jobs</span>
                   </SidebarMenuButton>
@@ -127,6 +127,22 @@ export default function DashboardLayout({
                   <SidebarMenuButton tooltip="Free Certification" isActive={pathname === '/dashboard/free-certification'}>
                     <GraduationCap />
                     <span>Free certification</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <Link href="/dashboard/notifications">
+                  <SidebarMenuButton tooltip="Notifications" isActive={pathname === '/dashboard/notifications'}>
+                    <Bell />
+                    <span>Notifications</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/security">
+                  <SidebarMenuButton tooltip="Security" isActive={pathname === '/dashboard/security'}>
+                    <Shield />
+                    <span>Security</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
