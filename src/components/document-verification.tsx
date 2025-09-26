@@ -38,6 +38,8 @@ const initialDocuments: DocumentState[] = [
   { id: 'degree', title: 'Degree/B.Tech Certificate', mandatory: true, status: 'Not Uploaded' },
   { id: 'mtech', title: 'M.Tech Certificate', mandatory: false, status: 'Not Uploaded' },
   { id: 'ms', title: 'MS Certificate', mandatory: false, status: 'Not Uploaded' },
+  { id: 'mba', title: 'MBA Certificate', mandatory: false, status: 'Not Uploaded' },
+  { id: 'phd', title: 'PhD Certificate', mandatory: false, status: 'Not Uploaded' },
 ];
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -478,3 +480,5 @@ export function DocumentVerification() {
     </>
   );
 }
+
+    
