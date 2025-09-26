@@ -4,8 +4,6 @@
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 
-const certificate = PlaceHolderImages.find(p => p.id === 'react-certificate-g-vignesh');
-
 export default function CertificationsPage() {
   return (
     <>
@@ -16,18 +14,6 @@ export default function CertificationsPage() {
             </div>
         </div>
         <div className="flex justify-center items-center py-8">
-            {certificate && (
-                <div className="relative w-full max-w-2xl">
-                    <Image
-                        src={certificate.imageUrl}
-                        alt={certificate.description}
-                        data-ai-hint={certificate.imageHint}
-                        width={1000}
-                        height={750}
-                        className="object-contain rounded-lg shadow-lg"
-                    />
-                </div>
-            )}
         </div>
     </>
   );
