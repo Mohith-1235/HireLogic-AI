@@ -80,6 +80,36 @@ const initialJobListings: JobListing[] = [
         progress: 25,
         appliedAt: '1 week ago'
     },
+    {
+        id: 6,
+        title: 'Full Stack Developer',
+        company: 'Tech Solutions',
+        location: 'London, UK',
+        saved: false,
+        applied: false,
+        postedAt: '2 days ago',
+        description: 'Looking for a Full Stack Developer proficient in both frontend and backend technologies. Experience with Node.js and React is a must.'
+    },
+    {
+        id: 7,
+        title: 'Product Manager',
+        company: 'Agile Innovations',
+        location: 'Berlin, Germany',
+        saved: true,
+        applied: false,
+        postedAt: '4 days ago',
+        description: 'We are seeking an experienced Product Manager to lead our product development team. You will define product vision, strategy, and roadmap.'
+    },
+    {
+        id: 8,
+        title: 'Data Scientist',
+        company: 'Insightful Data',
+        location: 'Remote',
+        saved: false,
+        applied: false,
+        postedAt: '6 days ago',
+        description: 'Join our team of data scientists to analyze large datasets and build predictive models that will drive business decisions.'
+    }
 ];
 
 const JOB_STORE_KEY = 'hirelogic_job_listings';
@@ -94,9 +124,13 @@ const getJobsFromStorage = (): JobListing[] => {
             return JSON.parse(storedJobs);
         } catch (e) {
             console.error("Failed to parse jobs from localStorage", e);
+            // If parsing fails, reset with initial data
+            saveJobsToStorage(initialJobListings);
             return initialJobListings;
         }
     }
+    // If no jobs are in storage, initialize it
+    saveJobsToStorage(initialJobListings);
     return initialJobListings;
 };
 
