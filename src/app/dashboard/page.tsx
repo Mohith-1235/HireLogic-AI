@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
 
 const initialJobListings = [
     { id: 1, title: 'Frontend Developer', company: 'Innovate Inc.', location: 'Remote', saved: false, applied: true, postedAt: '2 hours ago' },
@@ -19,11 +20,22 @@ const initialJobListings = [
 
 export default function DashboardPage() {
     const [jobListings, setJobListings] = useState(initialJobListings);
+    const { toast } = useToast();
 
     const handleToggleSave = (id: number) => {
         setJobListings(jobListings.map(job => 
             job.id === id ? { ...job, saved: !job.saved } : job
         ));
+    };
+
+    const handleApply = (id: number) => {
+        setJobListings(jobListings.map(job =>
+            job.id === id ? { ...job, applied: true } : job
+        ));
+        toast({
+            title: 'Application Sent!',
+            description: 'Your application has been successfully submitted.',
+        });
     };
 
     return (
@@ -61,7 +73,9 @@ export default function DashboardPage() {
                           </div>
                       </CardContent>
                       <CardFooter className="flex gap-2">
-                          <Button className="w-full">Apply Now</Button>
+                          <Button className="w-full" onClick={() => handleApply(job.id)} disabled={job.applied}>
+                            {job.applied ? 'Applied' : 'Apply Now'}
+                          </Button>
                           <Button variant="outline" className="w-full" onClick={() => handleToggleSave(job.id)}>
                             {job.saved ? 'Unsave' : 'Save'}
                           </Button>
