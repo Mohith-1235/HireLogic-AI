@@ -15,6 +15,14 @@ const freeCertifications = [
         description: 'Learn SQL from scratch and become a data wizard. This course covers everything from basic queries to advanced topics.',
         tags: ['SQL', 'Databases', 'Data Analysis'],
         url: 'https://www.udemy.com/course/mastering-sql-with-mysql-from-basics-to-advanced/?couponCode=196D5B1B8767387C2D4E',
+    },
+    {
+        id: 2,
+        title: 'Cybersecurity Mastery: Hacking',
+        provider: 'CyberSec Institute',
+        description: 'Learn ethical hacking and penetration testing techniques to become a cybersecurity expert.',
+        tags: ['Cybersecurity', 'Ethical Hacking', 'Penetration Testing'],
+        url: '#',
     }
 ];
 
