@@ -35,6 +35,30 @@
       "description": "A blank certificate template.",
       "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1709605417865_certificate-template.png",
       "imageHint": "certificate template"
+    },
+    {
+      "id": "react-certificate-static",
+      "description": "A static certificate for React - The Complete Guide.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762194883199_React-The_Complete_Guide_Completion_Certificate.png",
+      "imageHint": "react certificate"
+    },
+    {
+      "id": "google-ux-certificate",
+      "description": "Google UX Design Professional Certificate for G.Vignesh.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762281861783_image.jpeg",
+      "imageHint": "google certificate"
+    },
+    {
+      "id": "react-certificate-g-vignesh",
+      "description": "React - The Complete Guide Completion Certificate for G. VIGNESH.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1763110291931_image.jpeg",
+      "imageHint": "react certificate"
+    },
+    {
+      "id": "dashboard-background",
+      "description": "A subtle, abstract background for the dashboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1554189097-9e37395f1543?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "abstract texture"
     }
   ]
 }

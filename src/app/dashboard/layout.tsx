@@ -11,6 +11,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
 
 function Logo() {
   return (
@@ -68,6 +70,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
+  const dashboardBgImage = PlaceHolderImages.find(p => p.id === 'dashboard-background');
 
   useEffect(() => {
     // If user is not logged in and we're done loading, redirect to home
@@ -130,7 +133,7 @@ export default function DashboardLayout({
               <SidebarMenuItem>
                 <Link href="/dashboard/applied-jobs">
                   <SidebarMenuButton tooltip="Applied Jobs" isActive={pathname === '/dashboard/applied-jobs'}>
-                    <Bell />
+                    <Briefcase />
                     <span>Applied Jobs</span>
                   </SidebarMenuButton>
                 </Link>
@@ -179,6 +182,16 @@ export default function DashboardLayout({
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
+        {dashboardBgImage && (
+            <Image
+                src={dashboardBgImage.imageUrl}
+                alt={dashboardBgImage.description}
+                data-ai-hint={dashboardBgImage.imageHint}
+                fill
+                className="object-cover -z-10 opacity-5"
+            />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent -z-10"></div>
         <DashboardHeader />
         <main className="p-4 sm:p-6 lg:p-8 pt-0 space-y-6 animate-fade-in">
             {children}
