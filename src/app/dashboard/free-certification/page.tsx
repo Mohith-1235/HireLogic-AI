@@ -20,7 +20,7 @@ const freeCertifications = [
         id: 2,
         title: 'Cybersecurity Mastery: Hacking',
         provider: 'CyberSec Institute',
-        description: 'Learn ethical hacking and penetration testing techniques to become a cybersecurity expert.',
+        description: 'Mastering cybersecurity and ethical hacking builds skills in threat detection, penetration testing, and system defense—crucial for roles like security analyst, SOC engineer, and penetration tester—ensuring high demand and long-term career stability.',
         tags: ['Cybersecurity', 'Ethical Hacking', 'Penetration Testing'],
         url: 'https://www.udemy.com/course/cybersecurity-mastery-hacking-techniques/?couponCode=DISCUDEMY',
     }
