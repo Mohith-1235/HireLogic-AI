@@ -3,9 +3,11 @@
 
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CertificationsPage() {
   const certificateImage = PlaceHolderImages.find(p => p.id === 'google-ux-certificate');
+  const certificateUrl = "https://drive.google.com/file/d/1XKKvGiKRnrErMMPcgvMINzkyAvAWvQEn/view?usp=drivesdk";
 
   return (
     <>
@@ -17,14 +19,16 @@ export default function CertificationsPage() {
         </div>
         <div className="flex flex-col justify-center items-center py-8">
             {certificateImage && (
-                <Image
-                    src={certificateImage.imageUrl}
-                    alt={certificateImage.description}
-                    data-ai-hint={certificateImage.imageHint}
-                    width={800}
-                    height={600}
-                    className="rounded-lg shadow-lg"
-                />
+                <Link href={certificateUrl} target="_blank" rel="noopener noreferrer">
+                    <Image
+                        src={certificateImage.imageUrl}
+                        alt={certificateImage.description}
+                        data-ai-hint={certificateImage.imageHint}
+                        width={800}
+                        height={600}
+                        className="rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
+                    />
+                </Link>
             )}
         </div>
     </>
