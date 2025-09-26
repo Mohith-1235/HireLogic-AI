@@ -9,26 +9,26 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   UserCredential,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { initializeFirebase } from '.';
-import { updateUserDocument } from './firestore';
+import { createUserDocument } from './firestore';
 
 // --- Social Sign-Ins (Popup based) ---
 async function socialSignIn(provider: GoogleAuthProvider | OAuthProvider): Promise<UserCredential> {
-  const { auth } = initializeFirebase();
+  const { auth, firestore } = initializeFirebase();
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
     // After sign-in, ensure user document exists in Firestore
-    const { firestore } = initializeFirebase();
     const userData = {
       name: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
     };
-    // This is a non-blocking update.
-    updateUserDocument(firestore, user.uid, userData);
+    // This will create or merge the user document.
+    createUserDocument(firestore, user.uid, userData);
 
     return result;
   } catch (error) {
@@ -65,8 +65,8 @@ export async function signUpWithEmail(name: string, email: string, password: str
             photoURL: user.photoURL,
             verified_academics: false, // Set verification status to false for new users
         };
-        // This is a non-blocking update
-        updateUserDocument(firestore, user.uid, userData);
+        // This will create or merge the user document.
+        createUserDocument(firestore, user.uid, userData);
         
         return userCredential;
 
@@ -75,6 +75,9 @@ export async function signUpWithEmail(name: string, email: string, password: str
         throw error;
     }
 }
+
+// --- Email/Password Sign-In ---
+export { signInWithEmailAndPassword };
 
 
 // --- Sign Out ---
