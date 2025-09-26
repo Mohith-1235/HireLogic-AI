@@ -8,7 +8,9 @@ import { Badge } from './ui/badge';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
-import { UploadCloud, File as FileIcon, X, BrainCircuit, Tags } from 'lucide-react';
+import { UploadCloud, File as FileIcon, X, BrainCircuit, Tags, Loader2 } from 'lucide-react';
+import { analyzeResume, AnalyzeResumeOutput } from '@/ai/flows/analyze-resume';
+import { useToast } from '@/hooks/use-toast';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_FILE_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
@@ -16,7 +18,9 @@ const ALLOWED_FILE_TYPES = ['application/pdf', 'application/vnd.openxmlformats-o
 export function ResumeUpload() {
     const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [useMock, setUseMock] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [analysisResult, setAnalysisResult] = useState<AnalyzeResumeOutput | null>(null);
+    const { toast } = useToast();
 
     const handleFileChange = (selectedFile: File | null) => {
         if (!selectedFile) return;
@@ -31,13 +35,61 @@ export function ResumeUpload() {
         }
     
         setFile(selectedFile);
+        setAnalysisResult(null);
         setError(null);
     };
 
     const handleRemoveFile = () => {
         setFile(null);
         setError(null);
+        setAnalysisResult(null);
     };
+
+    const handleAnalyzeResume = async () => {
+        if (!file) return;
+
+        setIsLoading(true);
+        setError(null);
+        setAnalysisResult(null);
+        
+        try {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const fileDataUri = reader.result as string;
+
+                const result = await analyzeResume({ 
+                    resumeFile: {
+                        url: fileDataUri,
+                        contentType: file.type
+                    }
+                });
+
+                if (result) {
+                    setAnalysisResult(result);
+                } else {
+                     toast({
+                        variant: 'destructive',
+                        title: 'Analysis Failed',
+                        description: 'Could not analyze the resume. Please try again.',
+                    });
+                }
+            };
+            reader.onerror = (error) => {
+                throw new Error("Error reading file.");
+            }
+        } catch (err: any) {
+            setError(err.message || 'An unexpected error occurred during analysis.');
+            toast({
+                variant: 'destructive',
+                title: 'Analysis Error',
+                description: err.message || 'An unexpected error occurred.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return (
         <div className="grid gap-8 md:grid-cols-3">
@@ -88,7 +140,16 @@ export function ResumeUpload() {
                                         <X className="h-5 w-5" />
                                     </Button>
                                 </div>
-                                <Button className="w-full">Analyze Resume</Button>
+                                <Button className="w-full" onClick={handleAnalyzeResume} disabled={isLoading}>
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Analyzing...
+                                        </>
+                                    ) : (
+                                        'Analyze Resume'
+                                    )}
+                                </Button>
                             </div>
                         )}
                         {error && <p className="text-sm text-destructive text-center">{error}</p>}
@@ -102,29 +163,29 @@ export function ResumeUpload() {
                          <CardDescription>Inferred domains and skills from your resume will appear here.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="flex items-center space-x-2">
-                            <Switch id="mock-mode" checked={useMock} onCheckedChange={setUseMock} />
-                            <Label htmlFor="mock-mode">Use Mock Analysis</Label>
-                        </div>
-                        <Separator />
-                        <div className="space-y-2">
-                            <h4 className="font-semibold flex items-center gap-2"><BrainCircuit size={18}/> Inferred Domains</h4>
-                            <div className="flex flex-wrap gap-2">
-                                <Badge variant="secondary">Frontend (High)</Badge>
-                                <Badge variant="secondary">UI/UX (Medium)</Badge>
+                       {isLoading && <p className="text-muted-foreground text-sm">Analyzing, please wait...</p>}
+                       {analysisResult ? (
+                         <>
+                            <Separator />
+                            <div className="space-y-2">
+                                <h4 className="font-semibold flex items-center gap-2"><BrainCircuit size={18}/> Inferred Domains</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {analysisResult.domains.map(domain => (
+                                        <Badge key={domain.name} variant="secondary">{domain.name} ({domain.confidence})</Badge>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        <Separator />
-                         <div className="space-y-2">
-                            <h4 className="font-semibold flex items-center gap-2"><Tags size={18}/> Top Skills</h4>
-                            <div className="flex flex-wrap gap-2">
-                               <Badge>React</Badge>
-                               <Badge>TypeScript</Badge>
-                               <Badge>CSS</Badge>
-                               <Badge>Next.js</Badge>
-                               <Badge>Figma</Badge>
+                            <Separator />
+                            <div className="space-y-2">
+                                <h4 className="font-semibold flex items-center gap-2"><Tags size={18}/> Top Skills</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {analysisResult.skills.map(skill => <Badge key={skill}>{skill}</Badge>)}
+                                </div>
                             </div>
-                        </div>
+                         </>
+                       ) : (
+                         !isLoading && <p className="text-muted-foreground text-sm">Upload a resume and click "Analyze" to see results.</p>
+                       )}
                     </CardContent>
                 </Card>
             </div>
