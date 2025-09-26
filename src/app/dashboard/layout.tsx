@@ -159,7 +159,7 @@ export default function DashboardLayout({
       </Sidebar>
       <SidebarInset>
         <DashboardHeader />
-        <main className="p-4 sm:p-6 lg:p-8 pt-0 space-y-6">
+        <main className="p-4 sm:p-6 lg:p-8 pt-0 space-y-6 animate-fade-in">
             {children}
         </main>
       </SidebarInset>

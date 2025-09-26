@@ -60,7 +60,7 @@ export default function AppliedJobsPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {appliedJobs.map((job) => (
-                <Card key={job.id}>
+                <Card key={job.id} className="transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
                     <CardHeader>
                         <CardTitle>{job.title}</CardTitle>
                         <CardDescription>{job.company} - {job.location}</CardDescription>
