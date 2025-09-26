@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { signUpWithEmail, signInWithGoogle, signInWithApple } from "@/firebase/auth";
 import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
+import { UserCredential } from "firebase/auth";
 
 const signupSchema = z
   .object({
@@ -98,7 +99,7 @@ export function SignupModal({ afterOpen, isMobile = false }: SignupModalProps) {
     }
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = (userCredential: UserCredential) => {
     handleOpenChange(false);
     toast({
       title: "Account Created",
