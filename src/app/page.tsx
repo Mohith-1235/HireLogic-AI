@@ -1,12 +1,16 @@
 
+'use client';
+
 import { generateInitialHomepageContent, GenerateInitialHomepageContentOutput } from "@/ai/flows/generate-initial-homepage-content";
 import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { LoginModal } from "@/components/modals/login-modal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const defaultContent: GenerateInitialHomepageContentOutput = {
   headline: "Revolutionize Your Hiring with AI",
@@ -16,18 +20,23 @@ const defaultContent: GenerateInitialHomepageContentOutput = {
   aboutUsHiring: "We are committed to building a trusted hiring ecosystem that benefits both employers and candidates.",
 };
 
-export default async function Home() {
-  let content: GenerateInitialHomepageContentOutput;
-  try {
-    content = await generateInitialHomepageContent({
+export default function Home() {
+  const [content, setContent] = useState<GenerateInitialHomepageContentOutput>(defaultContent);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    generateInitialHomepageContent({
       prompt:
         "HireLogic-AI is a recruiting startup that uses AI for candidate screening and matching to streamline the hiring process.",
+    }).then(generatedContent => {
+      setContent(generatedContent);
+    }).catch(error => {
+      console.error("Failed to generate homepage content, using default:", error);
+      // content is already defaulted
+    }).finally(() => {
+      setLoading(false);
     });
-  } catch (error) {
-    console.error("Failed to generate homepage content, using default:", error);
-    content = defaultContent;
-  }
-
+  }, []);
 
   const heroImage = PlaceHolderImages.find(p => p.id === "hero-background");
   const missionImage = PlaceHolderImages.find(p => p.id === "about-mission");
@@ -73,9 +82,7 @@ export default async function Home() {
               {content.subtext}
             </p>
             <div className="flex gap-4 animate-fade-in-up [animation-delay:400ms]">
-              <Button asChild size="lg">
-                <a href="#contact">Get Started</a>
-              </Button>
+              <LoginModal triggerButton={<Button size="lg">Get Started</Button>} />
               <Button asChild size="lg" variant="outline">
                 <a href="#contact">Contact Us</a>
               </Button>
