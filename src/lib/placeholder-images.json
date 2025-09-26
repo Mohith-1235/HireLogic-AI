@@ -27,7 +27,7 @@
     {
       "id": "document-verification-image",
       "description": "A person coding, representing the verification process.",
-      "imageUrl": "https://images.unsplash.com/photo-1577375729152-4c8b5fcda381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBjb2Rpbmd8ZW58MHx8fHwxNzU4NzEwNTAzfDA&ixlibrb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1577375729152-4c8b5fcda381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBjb2Rpbmd8ZW58MHx8fHwxNzU4NzEwNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person coding"
     },
     {
@@ -35,6 +35,12 @@
       "description": "A blank certificate template.",
       "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1709605417865_certificate-template.png",
       "imageHint": "certificate template"
+    },
+    {
+      "id": "react-certificate-static",
+      "description": "A static certificate for React - The Complete Guide.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1762143781297_A_static_certificate_for_React_-_The_Complete_Guide..png",
+      "imageHint": "react certificate"
     }
   ]
 }

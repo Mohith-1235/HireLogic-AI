@@ -9,6 +9,7 @@ import { generateCertificateImage } from '@/ai/flows/generate-certificate-image'
 import { useUser } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { saveAs } from 'file-saver';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 
 const certifications = [
@@ -38,34 +39,42 @@ export default function CertificationsPage() {
   const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
   const handleDownload = async (certId: number, title: string, issuer: string) => {
-    if (!user?.displayName) {
-        toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'Could not find user name to generate certificate.'
-        });
-        return;
-    }
     setDownloadingId(certId);
     try {
-        const result = await generateCertificateImage({
-            title: title,
-            issuer: issuer,
-            userName: user.displayName,
-        });
-
-        if (result.imageDataUri) {
-            saveAs(result.imageDataUri, `${title.replace(/\s+/g, '_')}_certificate.png`);
+        if (certId === 1) {
+            const staticCert = PlaceHolderImages.find(p => p.id === 'react-certificate-static');
+            if (staticCert) {
+                saveAs(staticCert.imageUrl, `${title.replace(/\s+/g, '_')}_certificate.png`);
+            } else {
+                throw new Error('Static certificate image not found.');
+            }
         } else {
-            throw new Error('Image generation failed.');
-        }
+             if (!user?.displayName) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: 'Could not find user name to generate certificate.'
+                });
+                return;
+            }
+            const result = await generateCertificateImage({
+                title: title,
+                issuer: issuer,
+                userName: user.displayName,
+            });
 
+            if (result.imageDataUri) {
+                saveAs(result.imageDataUri, `${title.replace(/\s+/g, '_')}_certificate.png`);
+            } else {
+                throw new Error('Image generation failed.');
+            }
+        }
     } catch (error) {
-        console.error("Failed to generate certificate image:", error);
+        console.error("Failed to download or generate certificate image:", error);
         toast({
             variant: 'destructive',
             title: 'Download Failed',
-            description: 'Could not generate the certificate image. Please try again later.'
+            description: 'Could not produce the certificate image. Please try again later.'
         });
     } finally {
         setDownloadingId(null);
@@ -104,12 +113,12 @@ export default function CertificationsPage() {
                             onClick={() => handleDownload(cert.id, cert.title, cert.issuer)}
                             disabled={downloadingId === cert.id}
                         >
-                            {downloadingId === cert.id ? (
+                            {downloadingId === cert.id && cert.id !== 1 ? (
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             ) : (
                                 <Download className="mr-2 h-4 w-4" />
                             )}
-                            {downloadingId === cert.id ? 'Generating...' : 'Download'}
+                            {downloadingId === cert.id && cert.id !== 1 ? 'Generating...' : 'Download'}
                         </Button>
                     </CardFooter>
                 </Card>
