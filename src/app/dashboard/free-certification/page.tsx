@@ -12,7 +12,7 @@ const freeCertifications = [
         id: 1,
         title: 'Mastering SQL',
         provider: 'SQL Academy',
-        description: 'Learn SQL from scratch and become a data wizard. This course covers everything from basic queries to advanced topics.',
+        description: 'Mastering SQL is crucial long-term as it’s the backbone of data management, helping professionals like developers, analysts, and DBAs extract insights, optimize systems, and stay relevant in data-driven careers.',
         tags: ['SQL', 'Databases', 'Data Analysis'],
         url: 'https://www.udemy.com/course/mastering-sql-with-mysql-from-basics-to-advanced/?couponCode=196D5B1B8767387C2D4E',
     },
