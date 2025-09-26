@@ -10,6 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 import {z} from 'genkit';
 
 const GenerateCertificateImageInputSchema = z.object({
@@ -35,20 +36,26 @@ const generateCertificateImageFlow = ai.defineFlow(
     outputSchema: GenerateCertificateImageOutputSchema,
   },
   async (input) => {
+    const certificateTemplate = PlaceHolderImages.find(p => p.id === 'certificate-template');
+    if (!certificateTemplate) {
+        throw new Error('Certificate template image not found.');
+    }
+
     const { media } = await ai.generate({
-        model: 'googleai/imagen-4.0-fast-generate-001',
-        prompt: `Generate a professional certificate of completion with a formal, elegant border.
-        The certificate must have the following text elements, clearly legible:
-        - Main heading: "Certificate of Completion"
-        - Sub-heading: "This certifies that"
-        - Recipient Name (in a large, elegant script font): "${input.userName}"
-        - Completion statement: "has successfully completed"
-        - Course Title (in a bold, prominent font): "${input.title}"
-        - Issuing body: "Issued by ${input.issuer}"
-        - In the bottom right corner, include a realistic but fictional, generated signature.
-        - In the bottom left corner, include today's date.
-        
-        The overall design should be clean, prestigious, and professional, suitable for printing. Use a classic color palette such as cream, gold, and dark navy blue. The layout should be balanced and centered. Do not include any other text or logos.`,
+        model: 'googleai/gemini-2.5-flash-image-preview',
+        prompt: [
+            { media: { url: certificateTemplate.imageUrl } },
+            {
+              text: `Using the provided certificate template, add the following text to it:
+              - Recipient's Name: "${input.userName}" (in a large, elegant script font in the center)
+              - Course Title: "${input.title}" (in a bold font below the recipient's name)
+              - Issuing Organization: "Issued by ${input.issuer}" (in a smaller font below the course title)
+              Do not change any other part of the template.`,
+            },
+        ],
+        config: {
+            responseModalities: ['TEXT', 'IMAGE'],
+        }
     });
     
     if (!media.url) {

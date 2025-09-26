@@ -3,26 +3,38 @@
     {
       "id": "hero-background",
       "description": "A futuristic abstract background for the hero section.",
-      "imageUrl": "https://picsum.photos/seed/hero/1280/720",
+      "imageUrl": "https://images.unsplash.com/photo-1639074064849-395cddbeec2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzU4ODAyNzc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "futuristic abstract"
     },
     {
       "id": "about-mission",
       "description": "Image representing a futuristic vision or mission.",
-      "imageUrl": "https://picsum.photos/seed/mission/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1603286656381-6f04fb84435e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZnV0dXJpc3RpYyUyMHZpc2lvbnxlbnwwfHx8fDE3NTg3MTYyNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "futuristic vision"
     },
     {
       "id": "about-ai-screening",
       "description": "Image representing AI-driven screening technology.",
-      "imageUrl": "https://picsum.photos/seed/aiscreening/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1655393001768-d946c97d6fd1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwYWl8ZW58MHx8fHwxNzU4NzAzNzk4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "futuristic ai"
     },
     {
       "id": "about-trusted-hiring",
       "description": "Image representing a futuristic and trustworthy partnership.",
-      "imageUrl": "https://picsum.photos/seed/trustedhiring/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1655665436889-d396bdcf01b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmdXR1cmlzdGljJTIwcGFydG5lcnNoaXB8ZW58MHx8fHwxNzU4ODAyNzc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "futuristic partnership"
+    },
+    {
+      "id": "document-verification-image",
+      "description": "A person coding, representing the verification process.",
+      "imageUrl": "https://images.unsplash.com/photo-1577375729152-4c8b5fcda381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJzb24lMjBjb2Rpbmd8ZW58MHx8fHwxNzU4NzEwNTAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person coding"
+    },
+    {
+      "id": "certificate-template",
+      "description": "A blank certificate template.",
+      "imageUrl": "https://storage.googleapis.com/stedi-studio-prod-us-west1-188825701231/1709605417865_certificate-template.png",
+      "imageHint": "certificate template"
     }
   ]
 }
