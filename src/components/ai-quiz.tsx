@@ -1,0 +1,201 @@
+
+'use client';
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Label } from './ui/label';
+import { Progress } from './ui/progress';
+import { generateQuiz, GenerateQuizOutput } from '@/ai/flows/generate-quiz';
+import { Loader2, BrainCircuit } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+
+type QuizState = 'idle' | 'loading' | 'active' | 'finished';
+type QuizQuestion = GenerateQuizOutput['questions'][0];
+
+export function AiQuiz() {
+    const [topic, setTopic] = useState('React');
+    const [quizState, setQuizState] = useState<QuizState>('idle');
+    const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [userAnswers, setUserAnswers] = useState<string[]>([]);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [score, setScore] = useState(0);
+    const { toast } = useToast();
+
+    const handleStartQuiz = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!topic.trim()) {
+            toast({
+                variant: 'destructive',
+                title: 'Topic Required',
+                description: 'Please enter a topic for the quiz.',
+            });
+            return;
+        }
+
+        setQuizState('loading');
+        setUserAnswers([]);
+        setScore(0);
+        setCurrentQuestionIndex(0);
+
+        const result = await generateQuiz({ topic });
+
+        if (result && result.questions) {
+            setQuestions(result.questions);
+            setQuizState('active');
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Failed to Generate Quiz',
+                description: 'Could not generate a quiz for this topic. Please try another one.',
+            });
+            setQuizState('idle');
+        }
+    };
+
+    const handleNextQuestion = () => {
+        if (selectedAnswer === null) {
+            toast({
+                variant: 'destructive',
+                title: 'No Answer Selected',
+                description: 'Please select an answer before proceeding.',
+            });
+            return;
+        }
+
+        const newAnswers = [...userAnswers, selectedAnswer];
+        setUserAnswers(newAnswers);
+
+        // Check if the answer is correct
+        if (selectedAnswer === questions[currentQuestionIndex].answer) {
+            setScore(prev => prev + 1);
+        }
+
+        setSelectedAnswer(null);
+
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(prev => prev + 1);
+        } else {
+            setQuizState('finished');
+        }
+    };
+    
+    const handleRestart = () => {
+        setQuizState('idle');
+        setTopic('React');
+        setQuestions([]);
+        setUserAnswers([]);
+    };
+
+    const renderQuizContent = () => {
+        switch (quizState) {
+            case 'idle':
+            case 'loading':
+                return (
+                    <form onSubmit={handleStartQuiz}>
+                        <CardHeader>
+                            <CardTitle>Select a Topic</CardTitle>
+                            <CardDescription>Enter any topic you want to be quizzed on. For example: "React Hooks", "JavaScript Promises", or "CSS Flexbox".</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Input
+                                placeholder="Enter a topic..."
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                                disabled={quizState === 'loading'}
+                            />
+                        </CardContent>
+                        <CardFooter>
+                            <Button type="submit" className="w-full" disabled={quizState === 'loading'}>
+                                {quizState === 'loading' ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Generating Quiz...
+                                    </>
+                                ) : (
+                                     <>
+                                        <BrainCircuit className="mr-2 h-4 w-4" />
+                                        Start Quiz
+                                     </>
+                                )}
+                            </Button>
+                        </CardFooter>
+                    </form>
+                );
+
+            case 'active':
+                const question = questions[currentQuestionIndex];
+                return (
+                    <>
+                        <CardHeader>
+                            <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
+                            <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="mt-2" />
+                            <CardDescription className="pt-4 text-lg font-semibold text-foreground">{question.question}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <RadioGroup
+                                value={selectedAnswer || ''}
+                                onValueChange={setSelectedAnswer}
+                                className="space-y-3"
+                            >
+                                {question.options.map((option, index) => (
+                                    <div key={index} className="flex items-center space-x-2">
+                                        <RadioGroupItem value={option} id={`option-${index}`} />
+                                        <Label htmlFor={`option-${index}`} className="text-base cursor-pointer">{option}</Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                        </CardContent>
+                        <CardFooter>
+                            <Button onClick={handleNextQuestion} className="w-full">
+                                {currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next Question'}
+                            </Button>
+                        </CardFooter>
+                    </>
+                );
+            
+            case 'finished':
+                return (
+                     <>
+                        <CardHeader className="items-center text-center">
+                            <CardTitle>Quiz Complete!</CardTitle>
+                            <CardDescription>You scored {score} out of {questions.length}.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                           <ul className="space-y-4">
+                                {questions.map((q, index) => (
+                                    <li key={index} className="p-3 rounded-md border">
+                                        <p className="font-semibold">{index + 1}. {q.question}</p>
+                                        <p className={cn(
+                                            "mt-2 text-sm",
+                                            userAnswers[index] === q.answer ? "text-green-600" : "text-red-600"
+                                        )}>
+                                            Your answer: {userAnswers[index]}
+                                        </p>
+                                        {userAnswers[index] !== q.answer && (
+                                            <p className="text-sm text-green-600">Correct answer: {q.answer}</p>
+                                        )}
+                                    </li>
+                                ))}
+                           </ul>
+                        </CardContent>
+                        <CardFooter>
+                            <Button onClick={handleRestart} className="w-full">
+                                Take Another Quiz
+                            </Button>
+                        </CardFooter>
+                    </>
+                );
+        }
+    };
+
+    return (
+        <Card className="max-w-2xl mx-auto mt-6 w-full">
+            {renderQuizContent()}
+        </Card>
+    );
+}
