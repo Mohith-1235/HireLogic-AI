@@ -18,11 +18,13 @@ import { Badge } from './ui/badge';
 type QuizState = 'idle' | 'loading' | 'active' | 'finished';
 type QuizQuestion = GenerateQuizOutput['questions'][0];
 type QuizDifficulty = GenerateQuizInput['difficulty'];
+type QuizMode = GenerateQuizInput['mode'];
 
 export function AiQuiz() {
     const [topic, setTopic] = useState('React');
     const [subTopic, setSubTopic] = useState('');
     const [difficulty, setDifficulty] = useState<QuizDifficulty>('Medium');
+    const [mode, setMode] = useState<QuizMode>('Theory');
     const [quizState, setQuizState] = useState<QuizState>('idle');
     const [questions, setQuestions] = useState<QuizQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -47,7 +49,7 @@ export function AiQuiz() {
         setScore(0);
         setCurrentQuestionIndex(0);
 
-        const result = await generateQuiz({ topic, subTopic, difficulty });
+        const result = await generateQuiz({ topic, subTopic, difficulty, mode });
 
         if (result && result.questions) {
             setQuestions(result.questions);
@@ -149,6 +151,24 @@ export function AiQuiz() {
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div>
+                                <Label>Mode</Label>
+                                <RadioGroup
+                                    value={mode}
+                                    onValueChange={(value: QuizMode) => setMode(value)}
+                                    className="flex items-center space-x-4 pt-2"
+                                    disabled={quizState === 'loading'}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="Theory" id="mode-theory" />
+                                        <Label htmlFor="mode-theory">Theory</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="Practical" id="mode-practical" />
+                                        <Label htmlFor="mode-practical">Practical</Label>
+                                    </div>
+                                </RadioGroup>
+                            </div>
                         </CardContent>
                         <CardFooter>
                             <Button type="submit" className="w-full" disabled={quizState === 'loading'}>
@@ -175,7 +195,10 @@ export function AiQuiz() {
                         <CardHeader>
                             <div className='flex justify-between items-center'>
                                 <CardTitle>Question {currentQuestionIndex + 1} of {questions.length}</CardTitle>
-                                <Badge variant="outline">{difficulty}</Badge>
+                                <div className="flex items-center gap-2">
+                                    <Badge variant="secondary">{mode}</Badge>
+                                    <Badge variant="outline">{difficulty}</Badge>
+                                </div>
                             </div>
                             <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="mt-2" />
                             <CardDescription className="pt-4 text-lg font-semibold text-foreground">{question.question}</CardDescription>
