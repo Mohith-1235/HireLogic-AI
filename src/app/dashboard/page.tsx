@@ -15,16 +15,29 @@ import { getAllJobs, updateJob } from '@/lib/job-store';
 import type { JobListing } from '@/lib/job-store';
 
 export default function DashboardPage() {
-    const [jobListings, setJobListings] = useState<JobListing[]>([]);
+    const [allJobs, setAllJobs] = useState<JobListing[]>([]);
+    const [filteredJobs, setFilteredJobs] = useState<JobListing[]>([]);
     const [selectedJob, setSelectedJob] = useState<JobListing | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const { toast } = useToast();
 
     useEffect(() => {
-        setJobListings(getAllJobs());
+        const jobs = getAllJobs();
+        setAllJobs(jobs);
+        setFilteredJobs(jobs);
     }, []);
 
+    useEffect(() => {
+        const results = allJobs.filter(job =>
+            job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            job.location.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredJobs(results);
+    }, [searchTerm, allJobs]);
+
     const handleToggleSave = (id: number) => {
-        const updatedJobs = jobListings.map(job => {
+        const updatedJobs = allJobs.map(job => {
             if (job.id === id) {
                 const newJob = { ...job, saved: !job.saved };
                 updateJob(newJob);
@@ -32,11 +45,11 @@ export default function DashboardPage() {
             }
             return job;
         });
-        setJobListings(updatedJobs);
+        setAllJobs(updatedJobs);
     };
 
     const handleApplySuccess = (id: number) => {
-        const updatedJobs = jobListings.map(job => {
+        const updatedJobs = allJobs.map(job => {
             if (job.id === id) {
                 const newJob = { ...job, applied: true, status: 'Under Review' as const };
                 updateJob(newJob);
@@ -44,7 +57,7 @@ export default function DashboardPage() {
             }
             return job;
         });
-        setJobListings(updatedJobs);
+        setAllJobs(updatedJobs);
         setSelectedJob(null); // Close the dialog
         toast({
             title: 'Application Sent!',
@@ -62,16 +75,20 @@ export default function DashboardPage() {
               <div className="flex items-center gap-2">
                   <div className="relative w-full max-w-sm">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input placeholder="Search jobs..." className="pl-9" />
+                      <Input 
+                        placeholder="Search by title, company..." 
+                        className="pl-9"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
                   </div>
-                  <Button>Search</Button>
               </div>
           </div>
 
           <Separator />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {jobListings.map((job) => (
+              {filteredJobs.map((job) => (
                   <Card key={job.id} className="flex flex-col transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
                       <CardHeader>
                           <CardTitle>{job.title}</CardTitle>
